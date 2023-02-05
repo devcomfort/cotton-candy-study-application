@@ -7,6 +7,7 @@ import { IsStorageName } from "../store";
 // components
 import Logged from "../components/Logged";
 import NotLogIn from "../components/NotLogIn";
+import Roulette from "../components/Roulette";
 
 // pages
 import MainPage from "./MainPage";
@@ -23,6 +24,7 @@ const Router = () => {
           <Route path="/" element={<Logged storageName={storageName} />} />
           <Route path="/main" element={<MainPage />} />
           <Route path="/feedback" element={<FeedBackPage />} />
+          <Route path="/random/roulette" element={<Roulette />} />
           <Route path="*" element={<Logged storageName={storageName} />} />
         </Routes>
       ) : (
