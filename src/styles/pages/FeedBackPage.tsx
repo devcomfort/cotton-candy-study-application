@@ -51,7 +51,9 @@ export const FeedBackSection = styled.div`
   font-size: 14px;
   overflow: auto;
   background-color: blue;
-  margin-top: 15px;
+  gap: 15px;
+  padding: 20px 0;
+  box-sizing: border-box;
 `;
 
 export const FeedBackInfo = styled.div`
@@ -62,7 +64,7 @@ export const FeedBackInfo = styled.div`
   border: 1px solid grey;
   border-radius: 5px;
   padding: 0 15px;
-  margin: 10px 0;
+
   color: white;
   background-color: darkgrey;
 `;
