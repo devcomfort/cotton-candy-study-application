@@ -27,25 +27,37 @@ export const LoginCreateJoinWrapper = styled.div`
 `;
 
 export const LoginCreateRoom = styled.div`
-  padding: 10px 50px;
+  width: 250px;
+  height: 45px;
   background-color: #ffd6eb;
   border-radius: 10px;
   margin-bottom: 10px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const LoginEnterRoomIn = styled.div`
-  padding: 10px 12px;
+  width: 250px;
+  height: 45px;
   background-color: #fce9aa;
   border-radius: 10px;
   margin-bottom: 10px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const LoginSearchFeedBack = styled.div`
-  padding: 10px 75px;
+  width: 250px;
+  height: 45px;
   background-color: #d6dbff;
   border-radius: 10px;
   cursor: pointer;
   margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
