@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import LobbyImg from "./LobbyImg";
 import { NotLoginWrap, InvalidUserSection, InvalidUserDesc, InvalidUserForm, InvalidUserInput, InvalidUserBtn } from "../styles/components/NotLogin";
-import { getLogged } from "../store";
 import { useRecoilState } from "recoil";
 
 interface StorageType {
@@ -10,7 +9,6 @@ interface StorageType {
 
 const NotLogin = (props: StorageType) => {
   const [userName, setUserName] = useState<string>("");
-  const [logged, setLogged] = useRecoilState(getLogged);
 
   /** 로그인 기능 함수 */
   const handleUserLogin = (e: React.FormEvent<HTMLFormElement>) => {
@@ -24,7 +22,6 @@ const NotLogin = (props: StorageType) => {
     }
 
     localStorage.setItem(props.storageName, userName);
-    setLogged(true);
   };
 
   /** 사용자가 입력한 value를 state함수에 저장 */
