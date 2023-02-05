@@ -2,7 +2,8 @@ import styled from "@emotion/styled";
 
 export const FeedBackWrapper = styled.div`
   width: 100%;
-  height: 300px;
+  height: 100vh;
+  background-color: grey;
 `;
 
 export const FeedBackTitle = styled.div`
@@ -50,7 +51,7 @@ export const FeedBackSection = styled.div`
   align-items: center;
   flex-direction: column;
   font-size: 14px;
-  overflow-y: scroll;
+  overflow: auto;
   background-color: blue;
   margin-top: 15px;
 `;
@@ -64,6 +65,7 @@ export const FeedBackInfo = styled.div`
   border-radius: 5px;
   padding: 0 15px;
   margin: 10px 0;
+  color: white;
 `;
 
 export const FeedBackUserHeaderInfo = styled.div`
