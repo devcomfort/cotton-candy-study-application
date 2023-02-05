@@ -46,10 +46,8 @@ export const FeedBackGetInfoBtn = styled.button`
 export const FeedBackSection = styled.div`
   width: 100%;
   height: 300px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  display: grid;
+  place-items: center;
   font-size: 14px;
   overflow: auto;
   background-color: blue;
@@ -66,6 +64,7 @@ export const FeedBackInfo = styled.div`
   padding: 0 15px;
   margin: 10px 0;
   color: white;
+  background-color: darkgrey;
 `;
 
 export const FeedBackUserHeaderInfo = styled.div`
