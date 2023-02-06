@@ -2,25 +2,38 @@ import { useState } from "react";
 import { Wheel } from "react-custom-roulette";
 
 const Roulette = () => {
-  const [mustSpin, setMustSpin] = useState(false);
+  const [mustSpin, setMustSpin] = useState<boolean>(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
 
-  const data = [
-    { option: "0", style: { backgroundColor: "green", textColor: "black" } },
-    { option: "1", style: { backgroundColor: "darkgrey" } },
-    { option: "2" },
+  // 더미데이터
+  const data2 = [
+    { option: "1.솜사탕", style: { backgroundColor: "green" } },
+    { option: "2.비니루", style: { backgroundColor: "darkgrey" } },
+    { option: "3.데브" },
+    { option: "4.준서" },
+    { option: "5.혜린" },
   ];
 
   const handleSpinClick = () => {
-    const newPrizeNumber = Math.floor(Math.random() * data.length);
+    const newPrizeNumber = Math.floor(Math.random() * data2.length);
     setPrizeNumber(newPrizeNumber);
     setMustSpin(true);
+    data2.splice(newPrizeNumber, 12);
+    console.log(newPrizeNumber - 1);
   };
 
   return (
     <div>
-      <Wheel mustStartSpinning={mustSpin} prizeNumber={3} data={data} backgroundColors={["#3e3e3e", "#df3428"]} textColors={["#ffffff"]} />
-      <button onClick={handleSpinClick}>SPIN</button>
+      <Wheel
+        mustStartSpinning={mustSpin}
+        onStopSpinning={() => setMustSpin(false)}
+        prizeNumber={prizeNumber}
+        data={data2}
+        backgroundColors={["#3e3e3e", "#df3428", "blue", "yellow"]}
+        textColors={["#ffffff"]}
+        spinDuration={Math.random() * 0.8}
+      />
+      <button onClick={handleSpinClick}>돌리기</button>
     </div>
   );
 };

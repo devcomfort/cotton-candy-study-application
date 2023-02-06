@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import LobbyImg from "./LobbyImg";
 import { NotLoginWrap, InvalidUserSection, InvalidUserDesc, InvalidUserForm, InvalidUserInput, InvalidUserBtn } from "../styles/components/NotLogin";
-import { useRecoilState } from "recoil";
 
 interface StorageType {
   storageName: string;
