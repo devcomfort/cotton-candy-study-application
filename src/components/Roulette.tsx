@@ -18,8 +18,12 @@ const Roulette = () => {
     const newPrizeNumber = Math.floor(Math.random() * data2.length);
     setPrizeNumber(newPrizeNumber);
     setMustSpin(true);
-    data2.splice(newPrizeNumber, 12);
-    console.log(newPrizeNumber - 1);
+    console.log(newPrizeNumber + 1);
+  };
+
+  const deleteArryClick = () => {
+    console.log(prizeNumber + 1);
+    data2.splice(prizeNumber + 1, 1);
   };
 
   return (
@@ -34,6 +38,7 @@ const Roulette = () => {
         spinDuration={Math.random() * 0.8}
       />
       <button onClick={handleSpinClick}>돌리기</button>
+      <button onClick={deleteArryClick}>삭제</button>
     </div>
   );
 };
