@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Wheel } from "react-custom-roulette";
 
 const Roulette = () => {
@@ -6,7 +6,7 @@ const Roulette = () => {
   const [prizeNumber, setPrizeNumber] = useState(0);
 
   // 더미데이터
-  const data2 = [
+  const userInfo = [
     { option: "1.솜사탕", style: { backgroundColor: "green" } },
     { option: "2.비니루", style: { backgroundColor: "darkgrey" } },
     { option: "3.데브" },
@@ -15,15 +15,18 @@ const Roulette = () => {
   ];
 
   const handleSpinClick = () => {
-    const newPrizeNumber = Math.floor(Math.random() * data2.length);
+    const newPrizeNumber = Math.floor(Math.random() * userInfo.length);
     setPrizeNumber(newPrizeNumber);
     setMustSpin(true);
     console.log(newPrizeNumber + 1);
   };
 
+  let test;
+
   const deleteArryClick = () => {
-    console.log(prizeNumber + 1);
-    data2.splice(prizeNumber + 1, 1);
+    console.log(userInfo[prizeNumber]);
+    test = userInfo.splice(prizeNumber, 1);
+    console.log(userInfo);
   };
 
   return (
@@ -32,7 +35,7 @@ const Roulette = () => {
         mustStartSpinning={mustSpin}
         onStopSpinning={() => setMustSpin(false)}
         prizeNumber={prizeNumber}
-        data={data2}
+        data={userInfo}
         backgroundColors={["#3e3e3e", "#df3428", "blue", "yellow"]}
         textColors={["#ffffff"]}
         spinDuration={Math.random() * 0.8}
