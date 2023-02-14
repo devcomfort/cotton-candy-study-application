@@ -6,13 +6,6 @@ export const FeedBackWrapper = styled.div`
   background-color: grey;
 `;
 
-export const FeedBackTitle = styled.div`
-  font-weight: bold;
-  font-size: 18px;
-  text-align: center;
-  padding-top: 20px;
-`;
-
 export const FeedBackGetUserWrap = styled.div`
   height: 100px;
   display: flex;

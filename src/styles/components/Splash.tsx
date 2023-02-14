@@ -24,9 +24,3 @@ export const SplashWrap = styled.div`
 export const SplashImgLogo = styled.img`
   width: 220px;
 `;
-
-export const SplashTitle = styled.div`
-  font-family: splashFonts;
-  font-size: 50px;
-  margin-top: 20px;
-`;
