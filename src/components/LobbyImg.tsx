@@ -1,11 +1,12 @@
 import logo from "../assets/logo/logo.png";
-import { LobbyWrap, LobbyImgLogo, LobbyTitle } from "../styles/components/LobbyImg";
+import { ApplicationTitle } from "../styles/components/ApplicationTitle";
+import { LobbyWrap, LobbyImgLogo } from "../styles/components/LobbyImg";
 
 const LobbyImg = () => {
   return (
     <LobbyWrap>
       <LobbyImgLogo src={logo} />
-      <LobbyTitle>발표도우미</LobbyTitle>
+      <ApplicationTitle>발표도우미</ApplicationTitle>
     </LobbyWrap>
   );
 };
