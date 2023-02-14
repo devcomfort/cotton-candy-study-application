@@ -16,6 +16,7 @@ import FeedBackPage from "./FeedBackPage";
 const Router = () => {
   // Global State로 등록된 LocalStorage API Key 값을 가져온다.
   const storageName = useRecoilValue(IsStorageName);
+  console.log(storageName);
 
   return (
     <div>
@@ -29,8 +30,8 @@ const Router = () => {
         </Routes>
       ) : (
         <Routes>
-          <Route path="/" element={<NotLogIn storageName={storageName} />} />
-          <Route path="*" element={<NotLogIn storageName={storageName} />} />
+          <Route path="/" element={<NotLogIn />} />
+          <Route path="*" element={<NotLogIn />} />
         </Routes>
       )}
     </div>

@@ -3,7 +3,7 @@ import { atom } from "recoil";
 // LocalStorage API Key
 export const IsStorageName = atom({
   key: "IsStorageName",
-  default: "StudyName",
+  default: localStorage.getItem("StudyName"),
 });
 
 // InviteModal Active
