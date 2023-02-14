@@ -1,16 +1,12 @@
 import React, { useState } from "react";
 import LobbyImg from "./LobbyImg";
 import { NotLoginWrap, InvalidUserSection, InvalidUserDesc, InvalidUserForm, InvalidUserInput, InvalidUserBtn } from "../styles/components/NotLogin";
-import { getLogged } from "../store";
 import { useRecoilState } from "recoil";
+import { IsStorageName } from "../store";
 
-interface StorageType {
-  storageName: string;
-}
-
-const NotLogin = (props: StorageType) => {
+const NotLogin = () => {
   const [userName, setUserName] = useState<string>("");
-  const [logged, setLogged] = useRecoilState(getLogged);
+  const [localAPI, setLocalAPI] = useRecoilState(IsStorageName);
 
   /** 로그인 기능 함수 */
   const handleUserLogin = (e: React.FormEvent<HTMLFormElement>) => {
@@ -23,8 +19,8 @@ const NotLogin = (props: StorageType) => {
       return setUserName("");
     }
 
-    localStorage.setItem(props.storageName, userName);
-    setLogged(true);
+    setLocalAPI("StudyName");
+    localStorage.setItem("StudyName", userName);
   };
 
   /** 사용자가 입력한 value를 state함수에 저장 */

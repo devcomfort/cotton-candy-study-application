@@ -2,7 +2,8 @@ import styled from "@emotion/styled";
 
 export const FeedBackWrapper = styled.div`
   width: 100%;
-  height: 300px;
+  height: 100vh;
+  background-color: grey;
 `;
 
 export const FeedBackGetUserWrap = styled.div`
@@ -38,14 +39,14 @@ export const FeedBackGetInfoBtn = styled.button`
 export const FeedBackSection = styled.div`
   width: 100%;
   height: 300px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  display: grid;
+  place-items: center;
   font-size: 14px;
-  overflow-y: scroll;
+  overflow: auto;
   background-color: blue;
-  margin-top: 15px;
+  gap: 15px;
+  padding: 20px 0;
+  box-sizing: border-box;
 `;
 
 export const FeedBackInfo = styled.div`
@@ -56,7 +57,9 @@ export const FeedBackInfo = styled.div`
   border: 1px solid grey;
   border-radius: 5px;
   padding: 0 15px;
-  margin: 10px 0;
+
+  color: white;
+  background-color: darkgrey;
 `;
 
 export const FeedBackUserHeaderInfo = styled.div`
