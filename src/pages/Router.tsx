@@ -18,7 +18,7 @@ const Router = () => {
   const checkLogin = useRecoilValue(getLogged);
 
   return (
-    <div>
+    <>
       {checkLogin ? (
         <Routes>
           <Route path="/" element={<Logged storageName={storageName} />} />
@@ -32,7 +32,7 @@ const Router = () => {
           <Route path="*" element={<NotLogIn storageName={storageName} />} />
         </Routes>
       )}
-    </div>
+    </>
   );
 };
 
