@@ -19,7 +19,7 @@ interface StorageType {
 }
 
 const Logged = (props: StorageType) => {
-  const userName = localStorage.getItem(props.storageName);
+  const userName = localStorage.getItem("StudyName");
   const [activityModal, setActivityModal] = useRecoilState(activeModal);
 
   const path = useNavigate();
