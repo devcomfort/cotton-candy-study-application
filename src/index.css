@@ -1,6 +1,11 @@
 body {
   margin: 0;
 }
+button {
+  all: unset;
+  cursor: pointer;
+  text-align: center;
+}
 
 @font-face {
   font-family: splashFonts;
