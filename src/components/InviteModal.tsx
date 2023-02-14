@@ -15,7 +15,10 @@ import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { ChangeEventHandler } from "react";
 
+import io from "socket.io-client";
+
 const InviteModal = () => {
+  const socket = io();
   const [activityModal, setActivityModal] = useRecoilState(activeModal);
   const [inviteNum, setInviteNum] = useRecoilState(inviteNumber);
   const [numberOk, isNumberOk] = useRecoilState(isNumberCheck);
@@ -29,10 +32,11 @@ const InviteModal = () => {
   };
 
   const handleEnterRoomInBtn = () => {
-    console.log("방입장 소켓 연동시 이용가능");
+    // 백엔드 /rooms/getRoom api 개발 후 해당 번호가 있는지 우선검증.
     setActivityModal(false);
     isNumberOk(false);
     navigate("/main");
+    socket.emit("enterRoom", inviteNum);
   };
 
   const handleInviteNumberChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -46,13 +50,14 @@ const InviteModal = () => {
     setInviteNum(num);
     console.log(inviteNum);
   };
+  console.log(socket);
 
   return (
     <InviteModalWrapper>
       <InviteModalBg>
         <InviteModalTitle>초대번호를 입력해주세요</InviteModalTitle>
         <InviteModalInfoWrap>
-          <InviteModalInput type="number" onChange={handleInviteNumberChange} />
+          <InviteModalInput type="number" name="roomcode" onChange={handleInviteNumberChange} />
           <InviteModalBtnWrapper>
             <InviteModalCancleBtn onClick={handleModalCancleBtn}>취소</InviteModalCancleBtn>
             {numberOk ? (

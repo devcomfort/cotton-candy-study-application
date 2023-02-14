@@ -4,10 +4,10 @@ import { Wheel } from "react-custom-roulette";
 const Roulette = () => {
   const [mustSpin, setMustSpin] = useState<boolean>(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
-  const [userData, setUserData] = useState<string[]>();
 
   // 더미데이터
   const userInfo = [{ option: "1.솜사탕" }, { option: "2.비니루" }, { option: "3.데브" }, { option: "4.준서" }, { option: "5.혜린" }];
+  const [userData, setUserData] = useState(userInfo);
 
   const handleSpinClick = () => {
     const newPrizeNumber = Math.floor(Math.random() * userInfo.length);
@@ -21,6 +21,8 @@ const Roulette = () => {
     console.log(userInfo[prizeNumber]);
     userInfo.splice(prizeNumber, 1);
     console.log(userInfo);
+    setUserData(userData);
+    console.log(userData);
   };
 
   return (
@@ -29,7 +31,7 @@ const Roulette = () => {
         mustStartSpinning={mustSpin}
         onStopSpinning={() => setMustSpin(false)}
         prizeNumber={prizeNumber}
-        data={userInfo}
+        data={userData}
         backgroundColors={["#3e3e3e", "#df3428", "blue", "yellow"]}
         textColors={["#ffffff"]}
         spinDuration={Math.random() * 0.8}
