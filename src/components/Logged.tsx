@@ -10,8 +10,10 @@ import {
   LoginSearchFeedBack,
 } from "../styles/components/Logged";
 
-import { activeModal } from "../store";
+import { activeModal, roomNumberSet } from "../store";
 import { useRecoilState } from "recoil";
+
+import io from "socket.io-client";
 
 import InviteModal from "./InviteModal";
 interface StorageType {
@@ -20,10 +22,14 @@ interface StorageType {
 
 const Logged = (props: StorageType) => {
   const userName = localStorage.getItem("StudyName");
+  const [roomNum, setRoomNum] = useRecoilState(roomNumberSet);
   const [activityModal, setActivityModal] = useRecoilState(activeModal);
 
   const path = useNavigate();
-  const pathCreateRoom = () => path("/main");
+
+  const pathCreateRoom = async () => {
+    path("/rooms/create");
+  };
   const pathFeedBack = () => path("/feedback");
 
   /** 스터디룸 입장모달 활성화 */

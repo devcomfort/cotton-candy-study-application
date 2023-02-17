@@ -12,6 +12,7 @@ import Roulette from "../components/Roulette";
 // pages
 import MainPage from "./MainPage";
 import FeedBackPage from "./FeedBackPage";
+import Create from "./Create";
 
 const Router = () => {
   // Global State로 등록된 LocalStorage API Key 값을 가져온다.
@@ -23,7 +24,9 @@ const Router = () => {
       {storageName ? (
         <Routes>
           <Route path="/" element={<Logged storageName={storageName} />} />
-          <Route path="/main" element={<MainPage />} />
+
+          <Route path="/rooms/:inviteCode" element={<MainPage />} />
+
           <Route path="/feedback" element={<FeedBackPage />} />
           <Route path="/random/roulette" element={<Roulette />} />
           <Route path="*" element={<Logged storageName={storageName} />} />

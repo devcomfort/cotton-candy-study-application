@@ -16,17 +16,27 @@ import {
   RoomExitBtn,
   RouletteBtn,
 } from "../styles/pages/MainPage";
+import { io } from "socket.io-client";
+import { useNavigate } from "react-router-dom";
 
 const MainPage = () => {
   const [roomNum, setRoomNum] = useRecoilState(roomNumberSet);
   const [activityModal, setActivityModal] = useRecoilState(activeModal);
   const inviteCode = "this is invite code~!";
+  const path = useNavigate();
+
+  const socket = io("http://localhost:3000", {
+    transports: ["websocket"],
+  });
 
   useEffect(() => {
-    const number = 1234;
-
-    setRoomNum(number);
+    socket.connect();
+    const inviteCode = window.location.pathname.substring(7);
+    socket.emit("enterRoom", inviteCode);
+    setRoomNum(inviteCode);
     fetchMemberList();
+    console.log(inviteCode);
+    console.log(socket);
   }, []);
 
   const fetchMemberList = () => {
@@ -36,6 +46,7 @@ const MainPage = () => {
 
   const onLeaveRoom = () => {
     // 소켓 io 방 나가기
+    path("/");
   };
 
   const copyInviteCode = () => {
