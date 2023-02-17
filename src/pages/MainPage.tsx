@@ -9,24 +9,34 @@ import {
   InviteCodeBtn,
   MainPageBtnWrap,
   MainTitle,
-  MainTitlWrap,
+  MainTitleWrap,
   MainWrap,
   MemberHistory,
   MemberList,
   RoomExitBtn,
   RouletteBtn,
 } from "../styles/pages/MainPage";
+import { io } from "socket.io-client";
+import { useNavigate } from "react-router-dom";
 
 const MainPage = () => {
   const [roomNum, setRoomNum] = useRecoilState(roomNumberSet);
   const [activityModal, setActivityModal] = useRecoilState(activeModal);
   const inviteCode = "this is invite code~!";
+  const path = useNavigate();
+
+  const socket = io("http://localhost:3000", {
+    transports: ["websocket"],
+  });
 
   useEffect(() => {
-    const number = 1234;
-
-    setRoomNum(number);
+    socket.connect();
+    const inviteCode = window.location.pathname.substring(7);
+    socket.emit("enterRoom", inviteCode);
+    setRoomNum(inviteCode);
     fetchMemberList();
+    console.log(inviteCode);
+    console.log(socket);
   }, []);
 
   const fetchMemberList = () => {
@@ -36,6 +46,7 @@ const MainPage = () => {
 
   const onLeaveRoom = () => {
     // 소켓 io 방 나가기
+    path("/");
   };
 
   const copyInviteCode = () => {
@@ -50,13 +61,13 @@ const MainPage = () => {
     <MainWrap>
       {activityModal && <FeedBackModal />}
       <ApplicationTitle>발표도우미</ApplicationTitle>
-      <MainTitlWrap>
+      <MainTitleWrap>
         <MainTitle>
           <div>스터디 방 {roomNum}</div>
           <RoomExitBtn onClick={onLeaveRoom}>방 나가기</RoomExitBtn>
         </MainTitle>
         <InviteCodeBtn onClick={copyInviteCode}>초대 링크 복사</InviteCodeBtn>
-      </MainTitlWrap>
+      </MainTitleWrap>
       <ContentsWrap>
         <MemberList>
           <strong>유저 리스트</strong>
@@ -65,6 +76,9 @@ const MainPage = () => {
           </div>
         </MemberList>
         <MemberHistory>
+          <span>솜사탕님이 입장했습니다.</span>
+          <span>솜사탕님이 입장했습니다.</span>
+          <span>솜사탕님이 입장했습니다.</span>
           <span>솜사탕님이 입장했습니다.</span>
         </MemberHistory>
       </ContentsWrap>

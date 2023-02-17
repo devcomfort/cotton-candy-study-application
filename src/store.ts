@@ -33,7 +33,7 @@ export const isNumberCheck = atom({
 // room number default
 const roomNumberState = atom({
   key: "roomNumber",
-  default: 0,
+  default: "",
 });
 
 // room number get, set
