@@ -9,7 +9,7 @@ import {
   InviteCodeBtn,
   MainPageBtnWrap,
   MainTitle,
-  MainTitlWrap,
+  MainTitleWrap,
   MainWrap,
   MemberHistory,
   MemberList,
@@ -61,13 +61,13 @@ const MainPage = () => {
     <MainWrap>
       {activityModal && <FeedBackModal />}
       <ApplicationTitle>발표도우미</ApplicationTitle>
-      <MainTitlWrap>
+      <MainTitleWrap>
         <MainTitle>
           <div>스터디 방 {roomNum}</div>
           <RoomExitBtn onClick={onLeaveRoom}>방 나가기</RoomExitBtn>
         </MainTitle>
         <InviteCodeBtn onClick={copyInviteCode}>초대 링크 복사</InviteCodeBtn>
-      </MainTitlWrap>
+      </MainTitleWrap>
       <ContentsWrap>
         <MemberList>
           <strong>유저 리스트</strong>
@@ -76,6 +76,9 @@ const MainPage = () => {
           </div>
         </MemberList>
         <MemberHistory>
+          <span>솜사탕님이 입장했습니다.</span>
+          <span>솜사탕님이 입장했습니다.</span>
+          <span>솜사탕님이 입장했습니다.</span>
           <span>솜사탕님이 입장했습니다.</span>
         </MemberHistory>
       </ContentsWrap>

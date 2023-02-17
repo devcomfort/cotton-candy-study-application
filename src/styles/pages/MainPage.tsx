@@ -9,7 +9,7 @@ export const MainWrap = styled.div`
   padding: 0 1rem;
 `;
 
-export const MainTitlWrap = styled.div`
+export const MainTitleWrap = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -83,7 +83,7 @@ export const MemberHistory = styled.div`
   border: 1px solid #ccc;
   border-radius: 0.5rem;
 
-  > :nth-child(n) {
+  > :nth-of-type(1n) {
     margin: 0 1rem 0.5rem 1rem;
   }
 `;
