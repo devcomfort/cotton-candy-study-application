@@ -24,9 +24,7 @@ const Router = () => {
       {storageName ? (
         <Routes>
           <Route path="/" element={<Logged storageName={storageName} />} />
-
           <Route path="/rooms/:inviteCode" element={<MainPage />} />
-
           <Route path="/feedback" element={<FeedBackPage />} />
           <Route path="/random/roulette" element={<Roulette />} />
           <Route path="/random/lots" element={<Lots />} />

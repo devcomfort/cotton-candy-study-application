@@ -1,10 +1,6 @@
 import styled from "@emotion/styled";
 
-export const LoginWrap = styled.div`
-  max-width: 860px;
-  padding: 0 1rem;
-  margin: 0 auto;
-`;
+export const LoginWrap = styled.div``;
 
 export const LoginInfoWrapper = styled.div`
   max-width: 560px;
@@ -19,7 +15,7 @@ export const LoginUserName = styled.div`
 `;
 
 export const LoginCreateJoinWrapper = styled.div`
-  width: 100%;
+  padding: 0 1rem;
   display: flex;
   flex-direction: column;
   font-weight: bold;

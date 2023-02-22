@@ -3,15 +3,21 @@ import styled from "@emotion/styled";
 export const FeedBackWrapper = styled.div`
   width: 100%;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: grey;
 `;
 
 export const FeedBackGetUserWrap = styled.div`
+  width: 400px;
   height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: red;
+  background-color: grey;
+  border-radius: 5px;
+  margin-bottom: 30px;
 `;
 
 export const FeedBackInput = styled.input`
@@ -38,12 +44,11 @@ export const FeedBackGetInfoBtn = styled.button`
 
 export const FeedBackSection = styled.div`
   width: 100%;
-  height: 300px;
+  height: 400px;
   display: grid;
   place-items: center;
   font-size: 14px;
   overflow: auto;
-  background-color: blue;
   gap: 15px;
   padding: 20px 0;
   box-sizing: border-box;

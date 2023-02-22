@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import FeedBackModal from "../components/FeedBackModal";
 import { activeModal, roomNumberSet } from "../store";
 import { ApplicationTitle } from "../styles/components/ApplicationTitle";
 import {
@@ -22,21 +21,20 @@ import { useNavigate } from "react-router-dom";
 const MainPage = () => {
   const [roomNum, setRoomNum] = useRecoilState(roomNumberSet);
   const [activityModal, setActivityModal] = useRecoilState(activeModal);
-  const inviteCode = "this is invite code~!";
   const path = useNavigate();
 
-  const socket = io("http://localhost:3000", {
+  const socket = io("http://localhost:3002", {
     transports: ["websocket"],
   });
 
   useEffect(() => {
-    socket.connect();
-    const inviteCode = window.location.pathname.substring(7);
+    const inviteCode = window.location.pathname.substring(8);
     socket.emit("enterRoom", inviteCode);
+    socket.connect();
     setRoomNum(inviteCode);
-    fetchMemberList();
-    console.log(inviteCode);
-    console.log(socket);
+    console.log("메인컴포넌트", typeof inviteCode);
+    // fetchMemberList();
+    // console.log(socket);
   }, []);
 
   const fetchMemberList = () => {
@@ -50,7 +48,7 @@ const MainPage = () => {
   };
 
   const copyInviteCode = () => {
-    window.navigator["clipboard"].writeText(inviteCode);
+    // window.navigator["clipboard"].writeText(inviteCode);
     alert("초대 링크 복사 완료!");
   };
 
@@ -69,7 +67,6 @@ const MainPage = () => {
 
   return (
     <MainWrap>
-      {activityModal && <FeedBackModal />}
       <ApplicationTitle>발표도우미</ApplicationTitle>
       <MainTitleWrap>
         <MainTitle>

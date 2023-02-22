@@ -33,9 +33,7 @@ const FeedBackModal = () => {
     navigate("/main");
   };
 
-  const handleInviteNumberChange: ChangeEventHandler<HTMLInputElement> = (
-    e
-  ) => {
+  const handleInviteNumberChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     if (e.target.value.length > 5) {
       e.target.value = e.target.value.slice(0, 5);
       isNumberOk(true);
@@ -54,13 +52,9 @@ const FeedBackModal = () => {
         <InviteModalInfoWrap>
           <textarea style={{ width: "100%", height: "160px" }} />
           <InviteModalBtnWrapper>
-            <InviteModalCancleBtn onClick={handleModalCancleBtn}>
-              취소
-            </InviteModalCancleBtn>
+            <InviteModalCancleBtn onClick={handleModalCancleBtn}>취소</InviteModalCancleBtn>
             {numberOk ? (
-              <InviteModalJoinBtnActive onClick={handleEnterRoomInBtn}>
-                입장
-              </InviteModalJoinBtnActive>
+              <InviteModalJoinBtnActive onClick={handleEnterRoomInBtn}>입장</InviteModalJoinBtnActive>
             ) : (
               <InviteModalJoinBtnDisabled>입장</InviteModalJoinBtnDisabled>
             )}
