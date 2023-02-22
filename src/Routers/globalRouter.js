@@ -1,13 +1,11 @@
 import express from "express";
 import path from "path";
-import { getRoomsCreate, postGetRoom } from "../Controllers/globalControllers.js";
+import cors from "cors";
 
 const __dirname = path.resolve();
 const globalRouter = express.Router();
 
-
-globalRouter.route("/rooms/create").get(getRoomsCreate);
-globalRouter.route("/rooms/getRoom").post(postGetRoom);
+globalRouter.use("/", cors({ origin: "http://localhost:5173" }));
 globalRouter.route("*").get( (req, res) => {
     return res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
