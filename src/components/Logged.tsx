@@ -8,6 +8,7 @@ import { useRecoilState } from "recoil";
 import io from "socket.io-client";
 
 import InviteModal from "./InviteModal";
+import { useState } from "react";
 interface StorageType {
   storageName: string;
 }
@@ -34,6 +35,25 @@ const Logged = (props: StorageType) => {
   /** 스터디룸 입장모달 활성화 */
   const handleModalShowBtn = () => setActivityModal(true);
 
+  const postHandleFeedBack = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    fetch("http://localhost:3002/feedback/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        roomCode: "2000",
+        giverName: "평가주는사람",
+        evaluatedName: "targetName",
+        message: "msg",
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  };
+
   return (
     <>
       {activityModal && <InviteModal />}
@@ -44,6 +64,9 @@ const Logged = (props: StorageType) => {
           <LoginCreateRoom onClick={pathCreateRoom}>새로운 스터디룸 생성하기</LoginCreateRoom>
           <LoginEnterRoomIn onClick={handleModalShowBtn}>친구들의 스터디룸 입장하기 (초대코드)</LoginEnterRoomIn>
           <LoginSearchFeedBack onClick={pathFeedBack}>피드백 검색하기</LoginSearchFeedBack>
+          <form onSubmit={postHandleFeedBack}>
+            <button> 포스트 제출</button>
+          </form>
         </LoginCreateJoinWrapper>
       </LoginInfoWrapper>
     </>
