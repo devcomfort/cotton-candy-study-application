@@ -7,12 +7,12 @@ import { IsStorageName } from "../store";
 // components
 import Logged from "../components/Logged";
 import NotLogIn from "../components/NotLogIn";
-import Roulette from "../components/Roulette";
 
 // pages
 import MainPage from "./MainPage";
 import FeedBackPage from "./FeedBackPage";
-import Create from "./Create";
+import Roulette from "./Roulette";
+import Lots from "./Lots";
 
 const Router = () => {
   // Global State로 등록된 LocalStorage API Key 값을 가져온다.
@@ -29,6 +29,7 @@ const Router = () => {
 
           <Route path="/feedback" element={<FeedBackPage />} />
           <Route path="/random/roulette" element={<Roulette />} />
+          <Route path="/random/lots" element={<Lots />} />
           <Route path="*" element={<Logged storageName={storageName} />} />
         </Routes>
       ) : (

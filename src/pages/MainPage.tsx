@@ -54,6 +54,16 @@ const MainPage = () => {
     alert("초대 링크 복사 완료!");
   };
 
+  // 룰렛 페이지로 가기
+  const goRoulette = () => {
+    path("/random/roulette");
+  };
+
+  // 제비뽑기 페이지로 가기
+  const goLots = () => {
+    path("/random/lots");
+  };
+
   /** 스터디룸 입장모달 활성화 */
   const handleModalShowBtn = () => setActivityModal(true);
 
@@ -84,8 +94,8 @@ const MainPage = () => {
       </ContentsWrap>
       {/** 방장(rank 1)만 보이는 버튼 */}
       <MainPageBtnWrap>
-        <RouletteBtn>룰렛 돌리기</RouletteBtn>
-        <Drawing>제비 뽑기</Drawing>
+        <RouletteBtn onClick={goRoulette}>룰렛 돌리기</RouletteBtn>
+        <Drawing onClick={goLots}>제비 뽑기</Drawing>
       </MainPageBtnWrap>
     </MainWrap>
   );
