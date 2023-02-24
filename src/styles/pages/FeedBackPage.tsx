@@ -6,7 +6,6 @@ export const FeedBackWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: grey;
 `;
 
 export const FeedBackGetUserWrap = styled.div`
@@ -15,7 +14,6 @@ export const FeedBackGetUserWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: grey;
   border-radius: 5px;
   margin-bottom: 30px;
 `;

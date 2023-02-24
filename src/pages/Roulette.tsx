@@ -7,7 +7,6 @@ const Roulette = () => {
 
   // 더미데이터
   const userInfo = [{ option: "1.솜사탕" }, { option: "2.비니루" }, { option: "3.데브" }, { option: "4.준서" }, { option: "5.혜린" }];
-
   const [userData, setUserData] = useState(userInfo);
 
   const handleSpinClick = () => {

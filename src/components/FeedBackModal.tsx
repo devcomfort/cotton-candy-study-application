@@ -21,6 +21,7 @@ const FeedBackModal = () => {
   // 번호 모두 입력시 버튼 활성화
 
   const navigate = useNavigate();
+
   const handleModalCancleBtn = () => {
     setActivityModal(false);
     isNumberOk(false);
