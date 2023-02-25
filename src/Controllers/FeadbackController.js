@@ -2,7 +2,7 @@ import { UserFeadbacks } from "../Models/feadback";
 
 const createFeadback = async (req, res) => {
     /*
-     * POST feadback/createre
+     * POST feadback/create
      * body
      * {
      *   "roomCode" : 1024,
@@ -19,10 +19,12 @@ const createFeadback = async (req, res) => {
         evaluatorName : giverName,
         content : message,
     }
-    const evaluatedUser = await UserFeadbacks.findOne({evaluatedName : evaluatedName});
+
+    const evaluatedUser = await UserFeadbacks.findOne({evaluatedName});
     if (!evaluatedUser) {
-        return res.status(404).json({"message" : "no user"});
+        const addUser = await UserFeadbacks.create({evaluatedName});
     }
+
     const addFeadbackResult = await UserFeadbacks.findOneAndUpdate(
         { evaluatedName : evaluatedName }, 
         { $push : 

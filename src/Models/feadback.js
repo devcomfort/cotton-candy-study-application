@@ -10,7 +10,7 @@ const feadbackSchema = new mongoose.Schema({
 const userFeadbackSchema = new mongoose.Schema({
     evaluatedId: { type: mongoose.Schema.Types.ObjectId, required : false },
     evaluatedName: { type: String, required: true}, 
-    feadbacks: [feadbackSchema] 
+    feadbacks: [{type : feadbackSchema, required : false, default : [] }]
 })
 
 const Feadback = mongoose.model("Feadback", feadbackSchema);
