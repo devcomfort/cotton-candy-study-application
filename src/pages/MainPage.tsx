@@ -29,12 +29,9 @@ const MainPage = () => {
 
   useEffect(() => {
     const inviteCode = window.location.pathname.substring(8);
-    socket.emit("enterRoom", inviteCode);
-    socket.connect();
+    const userName = localStorage.getItem("StudyName");
+    socket.emit("enterRoom", inviteCode, userName);
     setRoomNum(inviteCode);
-    console.log("메인컴포넌트", typeof inviteCode);
-    // fetchMemberList();
-    // console.log(socket);
   }, []);
 
   const fetchMemberList = () => {
@@ -48,7 +45,8 @@ const MainPage = () => {
   };
 
   const copyInviteCode = () => {
-    // window.navigator["clipboard"].writeText(inviteCode);
+    const inviteCode = window.location.pathname.substring(8);
+    window.navigator["clipboard"].writeText(inviteCode);
     alert("초대 링크 복사 완료!");
   };
 
@@ -82,12 +80,7 @@ const MainPage = () => {
             이름
           </div>
         </MemberList>
-        <MemberHistory>
-          <span>솜사탕님이 입장했습니다.</span>
-          <span>솜사탕님이 입장했습니다.</span>
-          <span>솜사탕님이 입장했습니다.</span>
-          <span>솜사탕님이 입장했습니다.</span>
-        </MemberHistory>
+        <MemberHistory></MemberHistory>
       </ContentsWrap>
       {/** 방장(rank 1)만 보이는 버튼 */}
       <MainPageBtnWrap>
