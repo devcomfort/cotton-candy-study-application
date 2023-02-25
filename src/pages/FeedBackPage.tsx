@@ -25,7 +25,7 @@ const FeedBackPage = () => {
   const [feedbackData, setFeedBackData] = useState<Response>();
   const handleSetFeedBackUserName = (e: React.ChangeEvent<HTMLInputElement>) => setUserName(e.target.value);
 
-  const getFeedBackUserName = async (e: any) => {
+  const getFeedBackUserName = async (e: React.FormEvent) => {
     e.preventDefault();
     const data = await fetch(`http://localhost:3002/feadback/myfeadback?iam=${userName}`);
     const json = await data.json();
