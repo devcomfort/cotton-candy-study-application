@@ -21,17 +21,22 @@ const createFeadback = async (req, res) => {
     }
 
     const evaluatedUser = await UserFeadbacks.findOne({evaluatedName});
+    let addFeadbackResult = "";
     if (!evaluatedUser) {
-        const addUser = await UserFeadbacks.create({evaluatedName});
+        addFeadbackResult = await UserFeadbacks.create({evaluatedName, feadbacks : feadbackInfo});
+    } else {
+        addFeadbackResult = await UserFeadbacks.findOneAndUpdate(
+            { evaluatedName : evaluatedName }, 
+            { $push : 
+                { feadbacks : feadbackInfo}
+            }
+        );
     }
 
-    const addFeadbackResult = await UserFeadbacks.findOneAndUpdate(
-        { evaluatedName : evaluatedName }, 
-        { $push : 
-            { feadbacks : feadbackInfo}
-        }
-    );
-    
+    if (!addFeadbackResult) {
+        res.status(500).json({"message" : "Server_Error"});
+    }
+
     return res.status(201).json(addFeadbackResult);
 }
 
