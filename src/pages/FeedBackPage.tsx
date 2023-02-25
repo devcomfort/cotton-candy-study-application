@@ -30,7 +30,6 @@ const FeedBackPage = () => {
     const data = await fetch(`http://localhost:3002/feadback/myfeadback?iam=${userName}`);
     const json = await data.json();
     setFeedBackData(json);
-    console.log(feedbackData);
   };
   return (
     <FeedBackWrapper>
