@@ -8,7 +8,7 @@ export const FeedBackWrapper = styled.div`
   align-items: center;
 `;
 
-export const FeedBackGetUserWrap = styled.div`
+export const FeedBackGetUserWrap = styled.form`
   width: 400px;
   height: 100px;
   display: flex;
