@@ -1,5 +1,18 @@
+import LotsBox from "../components/LotsBox";
+
 const Lots = () => {
-  return <>제비뽑기 페이지</>;
+  return (
+    <div
+      style={{
+        display: "flex",
+        margin: "0 auto",
+        alignItems: "center",
+        maxWidth: "860px",
+      }}
+    >
+      <LotsBox />
+    </div>
+  );
 };
 
 export default Lots;
