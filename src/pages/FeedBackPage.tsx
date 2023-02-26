@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { ApplicationTitle } from "../styles/components/ApplicationTitle";
 import {
   FeedBackWrapper,
@@ -10,60 +11,46 @@ import {
   FeedBackMsg,
 } from "../styles/pages/FeedBackPage";
 
+type Feedback = Record<"roomCode" | "evaluatedName" | "content" | "_id" | "__v" | "createdAt", string>;
+
+interface Response {
+  evaluatedName: string;
+  feadbacks: Feedback[];
+  __v: number;
+  _id: string;
+}
+
 const FeedBackPage = () => {
+  const [userName, setUserName] = useState("");
+  const [feedbackData, setFeedBackData] = useState<Response>();
+  const handleSetFeedBackUserName = (e: React.ChangeEvent<HTMLInputElement>) => setUserName(e.target.value);
+
+  const getFeedBackUserName = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const data = await fetch(`http://localhost:3002/feadback/myfeadback?iam=${userName}`);
+    const json = await data.json();
+    setFeedBackData(json);
+  };
   return (
     <FeedBackWrapper>
       <ApplicationTitle>발표도우미</ApplicationTitle>
-      <FeedBackGetUserWrap>
-        <FeedBackInput type="text" placeholder="닉네임" />
+      <FeedBackGetUserWrap onSubmit={getFeedBackUserName}>
+        <FeedBackInput type="text" placeholder="닉네임" onChange={handleSetFeedBackUserName} />
         <FeedBackGetInfoBtn>검색</FeedBackGetInfoBtn>
       </FeedBackGetUserWrap>
 
       <FeedBackSection>
-        <FeedBackInfo>
-          <FeedBackUserHeaderInfo>
-            <div>닉네임</div>
-            <div>방 #4885</div>
-          </FeedBackUserHeaderInfo>
-          <FeedBackMsg>
-            리액트는 최강 입니다. 프론트엔드 직업은 꿀맛같은 직업 입니다. 백엔드
-            직업은 주옥같은 직업 입니다. 여기는 피드백게시판 입니다. CRUD기능
-            구현은 너무너무 어렵습니다. javascript의 변화는 너무너무 빨라요.
-          </FeedBackMsg>
-        </FeedBackInfo>
-        <FeedBackInfo>
-          <FeedBackUserHeaderInfo>
-            <div>닉네임</div>
-            <div>방 #4885</div>
-          </FeedBackUserHeaderInfo>
-          <FeedBackMsg>
-            리액트는 최강 입니다. 프론트엔드 직업은 꿀맛같은 직업 입니다. 백엔드
-            직업은 주옥같은 직업 입니다. 여기는 피드백게시판 입니다. CRUD기능
-            구현은 너무너무 어렵습니다. javascript의 변화는 너무너무 빨라요.
-          </FeedBackMsg>
-        </FeedBackInfo>
-        <FeedBackInfo>
-          <FeedBackUserHeaderInfo>
-            <div>닉네임</div>
-            <div>방 #4885</div>
-          </FeedBackUserHeaderInfo>
-          <FeedBackMsg>
-            리액트는 최강 입니다. 프론트엔드 직업은 꿀맛같은 직업 입니다. 백엔드
-            직업은 주옥같은 직업 입니다. 여기는 피드백게시판 입니다. CRUD기능
-            구현은 너무너무 어렵습니다. javascript의 변화는 너무너무 빨라요.
-          </FeedBackMsg>
-        </FeedBackInfo>
-        <FeedBackInfo>
-          <FeedBackUserHeaderInfo>
-            <div>닉네임</div>
-            <div>방 #4885</div>
-          </FeedBackUserHeaderInfo>
-          <FeedBackMsg>
-            리액트는 최강 입니다. 프론트엔드 직업은 꿀맛같은 직업 입니다. 백엔드
-            직업은 주옥같은 직업 입니다. 여기는 피드백게시판 입니다. CRUD기능
-            구현은 너무너무 어렵습니다. javascript의 변화는 너무너무 빨라요.
-          </FeedBackMsg>
-        </FeedBackInfo>
+        {feedbackData?.feadbacks.map((data, i) => {
+          return (
+            <FeedBackInfo key={i}>
+              <FeedBackUserHeaderInfo>
+                <div>{feedbackData.evaluatedName}</div>
+                <div>{data.roomCode}</div>
+              </FeedBackUserHeaderInfo>
+              <FeedBackMsg>{data.content}</FeedBackMsg>
+            </FeedBackInfo>
+          );
+        })}
       </FeedBackSection>
     </FeedBackWrapper>
   );

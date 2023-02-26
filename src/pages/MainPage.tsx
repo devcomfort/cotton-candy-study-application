@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import FeedBackModal from "../components/FeedBackModal";
 import { activeModal, roomNumberSet } from "../store";
 import { ApplicationTitle } from "../styles/components/ApplicationTitle";
 import {
@@ -22,21 +21,17 @@ import { useNavigate } from "react-router-dom";
 const MainPage = () => {
   const [roomNum, setRoomNum] = useRecoilState(roomNumberSet);
   const [activityModal, setActivityModal] = useRecoilState(activeModal);
-  const inviteCode = "this is invite code~!";
   const path = useNavigate();
 
-  const socket = io("http://localhost:3000", {
+  const socket = io("http://localhost:3002", {
     transports: ["websocket"],
   });
 
   useEffect(() => {
-    socket.connect();
-    const inviteCode = window.location.pathname.substring(7);
-    socket.emit("enterRoom", inviteCode);
+    const inviteCode = window.location.pathname.substring(8);
+    const userName = localStorage.getItem("StudyName");
+    socket.emit("enterRoom", inviteCode, userName);
     setRoomNum(inviteCode);
-    fetchMemberList();
-    console.log(inviteCode);
-    console.log(socket);
   }, []);
 
   const fetchMemberList = () => {
@@ -50,6 +45,7 @@ const MainPage = () => {
   };
 
   const copyInviteCode = () => {
+    const inviteCode = window.location.pathname.substring(8);
     window.navigator["clipboard"].writeText(inviteCode);
     alert("초대 링크 복사 완료!");
   };
@@ -69,7 +65,6 @@ const MainPage = () => {
 
   return (
     <MainWrap>
-      {activityModal && <FeedBackModal />}
       <ApplicationTitle>발표도우미</ApplicationTitle>
       <MainTitleWrap>
         <MainTitle>
@@ -85,12 +80,7 @@ const MainPage = () => {
             이름
           </div>
         </MemberList>
-        <MemberHistory>
-          <span>솜사탕님이 입장했습니다.</span>
-          <span>솜사탕님이 입장했습니다.</span>
-          <span>솜사탕님이 입장했습니다.</span>
-          <span>솜사탕님이 입장했습니다.</span>
-        </MemberHistory>
+        <MemberHistory></MemberHistory>
       </ContentsWrap>
       {/** 방장(rank 1)만 보이는 버튼 */}
       <MainPageBtnWrap>

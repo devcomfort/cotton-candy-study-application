@@ -11,24 +11,21 @@ import NotLogIn from "../components/NotLogIn";
 // pages
 import MainPage from "./MainPage";
 import FeedBackPage from "./FeedBackPage";
-import Roulette from "./Roulette";
+import RoulettePage from "./RoulettePage";
 import Lots from "./Lots";
 
 const Router = () => {
   // Global State로 등록된 LocalStorage API Key 값을 가져온다.
   const storageName = useRecoilValue(IsStorageName);
-  console.log(storageName);
 
   return (
     <div>
       {storageName ? (
         <Routes>
           <Route path="/" element={<Logged storageName={storageName} />} />
-
           <Route path="/rooms/:inviteCode" element={<MainPage />} />
-
           <Route path="/feedback" element={<FeedBackPage />} />
-          <Route path="/random/roulette" element={<Roulette />} />
+          <Route path="/random/roulette" element={<RoulettePage />} />
           <Route path="/random/lots" element={<Lots />} />
           <Route path="*" element={<Logged storageName={storageName} />} />
         </Routes>

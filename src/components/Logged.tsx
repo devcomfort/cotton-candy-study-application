@@ -1,14 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import LobbyImg from "./LobbyImg";
-import {
-  LoginWrap,
-  LoginInfoWrapper,
-  LoginUserName,
-  LoginCreateJoinWrapper,
-  LoginCreateRoom,
-  LoginEnterRoomIn,
-  LoginSearchFeedBack,
-} from "../styles/components/Logged";
+import { LoginInfoWrapper, LoginUserName, LoginCreateJoinWrapper, LoginCreateRoom, LoginEnterRoomIn, LoginSearchFeedBack } from "../styles/components/Logged";
 
 import { activeModal, roomNumberSet } from "../store";
 import { useRecoilState } from "recoil";
@@ -16,6 +8,7 @@ import { useRecoilState } from "recoil";
 import io from "socket.io-client";
 
 import InviteModal from "./InviteModal";
+import { useState } from "react";
 interface StorageType {
   storageName: string;
 }
@@ -28,8 +21,15 @@ const Logged = (props: StorageType) => {
   const path = useNavigate();
 
   const pathCreateRoom = async () => {
-    path("/rooms/create");
+    const data = await fetch("http://localhost:3002/api/rooms", {
+      method: "POST",
+    });
+    const json = await data.json();
+    console.log(json.inviteCode);
+    setRoomNum(json.inviteCode);
+    path(`/rooms/:${json.inviteCode}`);
   };
+
   const pathFeedBack = () => path("/feedback");
 
   /** 스터디룸 입장모달 활성화 */

@@ -10,7 +10,7 @@ import {
   InviteModalJoinBtnActive,
 } from "../styles/components/InviteModal";
 
-import { activeModal, inputAlert, inviteNumber, isNumberCheck } from "../store";
+import { activeModal, inviteNumber, isNumberCheck } from "../store";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { ChangeEventHandler } from "react";
@@ -35,22 +35,22 @@ const InviteModal = () => {
     // 백엔드 /rooms/getRoom api 개발 후 해당 번호가 있는지 우선검증.
     setActivityModal(false);
     isNumberOk(false);
-    navigate("/main");
+    navigate(`/rooms/:${inviteNum}`);
     socket.emit("enterRoom", inviteNum);
+    console.log(inviteNum);
   };
 
   const handleInviteNumberChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     if (e.target.value.length > 5) {
       e.target.value = e.target.value.slice(0, 5);
       isNumberOk(true);
-    } else if (e.target.value.length === 5) {
+    } else if (e.target.value.length === 4) {
       isNumberOk(true);
     }
     const num = Number(e.target.value);
     setInviteNum(num);
     console.log(inviteNum);
   };
-  console.log(socket);
 
   return (
     <InviteModalWrapper>
