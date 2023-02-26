@@ -11,7 +11,7 @@ import NotLogIn from "../components/NotLogIn";
 // pages
 import MainPage from "./MainPage";
 import FeedBackPage from "./FeedBackPage";
-import Roulette from "./Roulette";
+import RoulettePage from "./RoulettePage";
 import Lots from "./Lots";
 
 const Router = () => {
@@ -26,7 +26,7 @@ const Router = () => {
           <Route path="/" element={<Logged storageName={storageName} />} />
           <Route path="/rooms/:inviteCode" element={<MainPage />} />
           <Route path="/feedback" element={<FeedBackPage />} />
-          <Route path="/random/roulette" element={<Roulette />} />
+          <Route path="/random/roulette" element={<RoulettePage />} />
           <Route path="/random/lots" element={<Lots />} />
           <Route path="*" element={<Logged storageName={storageName} />} />
         </Routes>

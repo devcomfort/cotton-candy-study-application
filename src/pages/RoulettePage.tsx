@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Wheel } from "react-custom-roulette";
 
-const Roulette = () => {
+import { RouletteWrapper, RuletteBtnWrap } from "../styles/pages/RoulettePage";
+
+const RoulettePage = () => {
   const [mustSpin, setMustSpin] = useState<boolean>(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
 
@@ -27,7 +29,7 @@ const Roulette = () => {
   // 모달창을 닫았을때 배열이 1개이면 모달 바로 뛰워서 당첨자 발표.
 
   return (
-    <div>
+    <RouletteWrapper>
       <Wheel
         mustStartSpinning={mustSpin}
         onStopSpinning={() => setMustSpin(false)}
@@ -37,10 +39,11 @@ const Roulette = () => {
         textColors={["#ffffff"]}
         spinDuration={0.1}
       />
-      <button onClick={handleSpinClick}>돌리기</button>
-      <button onClick={deleteArrayClick}>삭제</button>
-    </div>
+      <RuletteBtnWrap>
+        <button onClick={handleSpinClick}>돌리기</button>
+      </RuletteBtnWrap>
+    </RouletteWrapper>
   );
 };
 
-export default Roulette;
+export default RoulettePage;
