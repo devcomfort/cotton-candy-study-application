@@ -1,5 +1,6 @@
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
+import box from "../../assets/question_box.png";
 
 export const LotsBoxWrap = styled.div`
   background-color: aliceblue;
@@ -12,9 +13,10 @@ export const LotsBoxWrap = styled.div`
 
 export const DefaultLotsBox = styled.div`
   width: 200px;
-  height: 150px;
+  height: 200px;
   margin: 0.4rem;
-  background: #febf00;
+  background-image: url(${box});
+  background-size: cover;
   transform-origin: 50% 0%;
   border-radius: 0.5rem;
 `;
@@ -29,9 +31,10 @@ const shake = keyframes`
 
 export const ShakingLotsBox = styled.div`
   width: 200px;
-  height: 150px;
+  height: 200px;
   margin: 0.4rem;
-  background: #febf00;
+  background-image: url(${box});
+  background-size: cover;
   transform-origin: 50% 0%;
   border-radius: 0.5rem;
   animation-name: ${shake};
