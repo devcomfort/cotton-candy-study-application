@@ -27,27 +27,20 @@ const MainPage = () => {
     transports: ["websocket"],
   });
 
-  useEffect(() => {
-    const inviteCode = window.location.pathname.substring(8);
-    const userName = localStorage.getItem("StudyName");
-    socket.emit("enterRoom", inviteCode, userName);
-    setRoomNum(inviteCode);
-  }, []);
-
-  const fetchMemberList = () => {
-    // 백엔드에서 방에 입장한 사람들 목록 받아오기
-    return;
-  };
+  const inviteCode = window.location.pathname.substring(8);
+  const userName = localStorage.getItem("StudyName");
+  socket.emit("enterRoom", inviteCode, userName);
+  setRoomNum(inviteCode);
 
   const onLeaveRoom = () => {
     // 소켓 io 방 나가기
     path("/");
   };
 
-  const copyInviteCode = () => {
+  const copyInviteCode = async () => {
     const inviteCode = window.location.pathname.substring(8);
-    window.navigator["clipboard"].writeText(inviteCode);
-    alert("초대 링크 복사 완료!");
+    await navigator.clipboard.writeText(`${inviteCode}`);
+    alert("초대 코드 복사 완료!");
   };
 
   // 룰렛 페이지로 가기
@@ -71,7 +64,7 @@ const MainPage = () => {
           <div>스터디 방 {roomNum}</div>
           <RoomExitBtn onClick={onLeaveRoom}>방 나가기</RoomExitBtn>
         </MainTitle>
-        <InviteCodeBtn onClick={copyInviteCode}>초대 링크 복사</InviteCodeBtn>
+        <InviteCodeBtn onClick={copyInviteCode}>초대 코드 복사</InviteCodeBtn>
       </MainTitleWrap>
       <ContentsWrap>
         <MemberList>
