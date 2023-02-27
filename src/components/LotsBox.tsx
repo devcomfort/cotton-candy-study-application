@@ -5,6 +5,7 @@ import { LotsBoxWrap, LotsBtn, DefaultLotsBox, ShakingLotsBox } from "../styles/
 const LotsBox = () => {
   // dummy data
   const dummyUserArray = [{ name: "1. 솜사탕" }, { name: "2. 데브컴포트" }, { name: "3. 준서킴" }, { name: "4. 혜린" }, { name: "5. 비니루" }];
+
   const [isShakeBox, setIsShakeBox] = useState(true);
   const [isShakeConfetti, setIsShakeConfetti] = useState(false);
   const [userData, setUserData] = useState(dummyUserArray);
