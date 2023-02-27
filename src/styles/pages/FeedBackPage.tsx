@@ -60,7 +60,6 @@ export const FeedBackInfo = styled.div`
   border: 1px solid grey;
   border-radius: 5px;
   padding: 0 15px;
-
   color: white;
   background-color: darkgrey;
 `;
