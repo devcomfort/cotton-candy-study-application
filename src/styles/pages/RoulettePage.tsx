@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 export const RouletteWrapper = styled.div`
   width: 100%;
-  padding-top: 100px;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
