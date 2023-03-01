@@ -2,6 +2,7 @@ import { useState } from "react";
 
 // library
 import Confetti from "react-confetti";
+import { useNavigate } from "react-router-dom";
 
 // components
 import FeedBackModal from "../components/FeedBackModal";
@@ -26,6 +27,8 @@ const LotsBox = ({ userDataArr }: UserType) => {
   const [pickupData, setPickupData] = useState<string[]>([]);
   // 피드백 모달 활성화 여부 state
   const [isInFeedBackModal, setIsInFeedBackModal] = useState(false);
+
+  const path = useNavigate();
 
   // 박스가 흔들릴때의 함수
   const onShakeBox = () => {
@@ -74,6 +77,8 @@ const LotsBox = ({ userDataArr }: UserType) => {
   // 피드백 모달 클릭시, 모달 생성, FeedBackModal 컴포넌트로 props 전달
   const handleFeedBackBtn = () => setIsInFeedBackModal((prev) => !prev);
 
+  const goRoot = () => path("/");
+
   return (
     <LotsBoxWrap>
       <h1>제비 뽑기</h1>
@@ -83,12 +88,14 @@ const LotsBox = ({ userDataArr }: UserType) => {
       {isShakeBox ? <ShakingLotsBox /> : <DefaultLotsBox />}
       {userData.length === 0 ? (
         // userData.length 값이 0일시 피드백을 남길수 있는 함수 컴포넌트로 렌더링
-        <div style={{ width: "100%", display: "flex" }}>
+        <div style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
           <LotsBtn onClick={handleFeedBackBtn}>피드백 남기기</LotsBtn>
+          <LotsBtn onClick={goRoot}>나가기</LotsBtn>
         </div>
       ) : (
-        <div style={{ width: "100%", display: "flex" }}>
+        <div style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
           <LotsBtn onClick={onShakeBox}>제비뽑기 시작</LotsBtn>
+          <LotsBtn onClick={goRoot}>나가기</LotsBtn>
         </div>
       )}
       {/* 뽑힌 사람들 보여주기 */}

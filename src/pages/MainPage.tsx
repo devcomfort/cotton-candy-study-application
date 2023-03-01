@@ -45,7 +45,6 @@ const MainPage = ({ MainPageProps }: UserType) => {
     socket.emit("enterRoom", inviteCode, userName);
     socket.on("memberList", (members) => setUserList([...members]));
     setRoomNum(inviteCode);
-    // 사파리에서 접속했을경우 방장이 안뜸
     socket.on("welcome", (userMsg: string, members) => {
       setUserList([...members]);
       MainPageProps(members);
