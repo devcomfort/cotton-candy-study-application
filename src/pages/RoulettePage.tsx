@@ -7,7 +7,7 @@ import { Wheel } from "react-custom-roulette";
 import FeedBackModal from "../components/FeedBackModal";
 
 // styles
-import { RouletteWrapper, RuletteBtnWrap } from "../styles/pages/RoulettePage";
+import { RouletteWrapper, RuletteBtnWrap, RuletteGoRootBtn } from "../styles/pages/RoulettePage";
 
 interface UserType {
   userDataArr: string[];
@@ -73,14 +73,11 @@ const RoulettePage = ({ userDataArr }: UserType) => {
         spinDuration={0.3}
       />
       {userData.length === 0 ? (
-        <RuletteBtnWrap>
-          <button onClick={handleFeedBackBtn}>발표자 피드백 남기기</button>
-        </RuletteBtnWrap>
+        <RuletteBtnWrap onClick={handleFeedBackBtn}>발표자 피드백 남기기</RuletteBtnWrap>
       ) : (
-        <RuletteBtnWrap>
-          <button onClick={handleSpinClick}>돌리기</button>
-        </RuletteBtnWrap>
+        <RuletteBtnWrap onClick={handleSpinClick}>돌리기</RuletteBtnWrap>
       )}
+      <RuletteGoRootBtn onClick={handleSpinClick}>나가기</RuletteGoRootBtn>
     </RouletteWrapper>
   );
 };
