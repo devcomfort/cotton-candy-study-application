@@ -8,6 +8,7 @@ import {
   FeedBackInput,
   FeedBackGetInfoBtn,
   FeedBackSection,
+  FeedBackGoRootBtn,
   FeedBackInfo,
   FeedBackUserHeaderInfo,
   FeedBackMsg,
@@ -38,6 +39,7 @@ const FeedBackPage = () => {
     if (json.message) return alert("피드백 사용자가 없습니다.");
     setFeedBackData(json);
   };
+
   return (
     <FeedBackWrapper>
       <ApplicationTitle>발표도우미</ApplicationTitle>
@@ -59,6 +61,7 @@ const FeedBackPage = () => {
           );
         })}
       </FeedBackSection>
+      <FeedBackGoRootBtn>나가기</FeedBackGoRootBtn>
     </FeedBackWrapper>
   );
 };

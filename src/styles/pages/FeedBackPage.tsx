@@ -49,7 +49,17 @@ export const FeedBackSection = styled.div`
   overflow: auto;
   gap: 15px;
   padding: 20px 0;
+  background-color: grey;
+`;
+
+export const FeedBackGoRootBtn = styled.div`
+  margin-top: 20px;
+  padding: 15px 50px;
+  border-radius: 5px;
+  background-color: green;
   box-sizing: border-box;
+  font-weight: bold;
+  color: white;
 `;
 
 export const FeedBackInfo = styled.div`
