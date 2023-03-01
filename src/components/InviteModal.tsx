@@ -31,13 +31,24 @@ const InviteModal = () => {
     isNumberOk(false);
   };
 
-  const handleEnterRoomInBtn = () => {
-    // 백엔드 /rooms/getRoom api 개발 후 해당 번호가 있는지 우선검증.
-    setActivityModal(false);
-    isNumberOk(false);
-    navigate(`/rooms/:${inviteNum}`);
-    socket.emit("enterRoom", inviteNum);
-    console.log(inviteNum);
+  const handleEnterRoomInBtn = async () => {
+    const data = await fetch("http://localhost:3002/api/rooms/:inviteNum", {
+      method: "POST",
+      body: new URLSearchParams({
+        inviteCode: `${inviteNum}`,
+      }),
+    });
+    const json = await data.json();
+    if (json.result) {
+      setActivityModal(false);
+      isNumberOk(false);
+      navigate(`/rooms/:${inviteNum}`);
+      socket.emit("enterRoom", inviteNum);
+      return;
+    } else {
+      return alert("해당 방은 존재하지 않습니다.");
+    }
+    //localhost:3002/api/rooms/:inviteCode
   };
 
   const handleInviteNumberChange: ChangeEventHandler<HTMLInputElement> = (e) => {
