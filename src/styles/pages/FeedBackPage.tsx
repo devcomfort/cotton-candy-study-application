@@ -49,7 +49,6 @@ export const FeedBackSection = styled.div`
   overflow: auto;
   gap: 15px;
   padding: 20px 0;
-  background-color: grey;
 `;
 
 export const FeedBackGoRootBtn = styled.div`
