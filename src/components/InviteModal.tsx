@@ -26,7 +26,7 @@ const InviteModal = (props: ModalType) => {
   const [inviteNum, setInviteNum] = useState(0);
   const [numberOk, isNumberOk] = useState(false);
 
-  const navigate = useNavigate();
+  const path = useNavigate();
 
   // 상위컴포넌트인 Logged의 props 함수를 호출하여 modal state 값을 상위에서 변경
   const handleModalCancleBtn = () => props.handleActivityModalBtn();
@@ -44,7 +44,7 @@ const InviteModal = (props: ModalType) => {
     });
     const json = await data.json();
     if (json.result) {
-      navigate(`/rooms/:${inviteNum}`);
+      path(`/rooms/:${inviteNum}`);
       socket.emit("enterRoom", inviteNum);
       return;
     } else {
