@@ -24,12 +24,6 @@ export const IsStorageName = atom({
 //   },
 // });
 
-// check invite inputNumber
-export const inputAlert = atom({
-  key: "inputAlert",
-  default: "",
-});
-
 // room number default
 const roomNumberState = atom({
   key: "roomNumber",
