@@ -23,14 +23,16 @@ const MainPage = () => {
   const [activityModal, setActivityModal] = useRecoilState(activeModal);
   const path = useNavigate();
 
-  const socket = io("http://localhost:3002", {
-    transports: ["websocket"],
-  });
+  useEffect(() => {
+    const socket = io("http://localhost:3002", {
+      transports: ["websocket"],
+    });
 
-  const inviteCode = window.location.pathname.substring(8);
-  const userName = localStorage.getItem("StudyName");
-  socket.emit("enterRoom", inviteCode, userName);
-  setRoomNum(inviteCode);
+    const inviteCode = window.location.pathname.substring(8);
+    const userName = localStorage.getItem("StudyName");
+    socket.emit("enterRoom", inviteCode, userName);
+    setRoomNum(inviteCode);
+  });
 
   const onLeaveRoom = () => {
     // 소켓 io 방 나가기
