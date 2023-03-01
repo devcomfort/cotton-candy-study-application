@@ -1,3 +1,13 @@
+import { useNavigate } from "react-router-dom";
+
+// socket
+import io from "socket.io-client";
+
+// Global States
+import { activeModal, inviteNumber, isNumberCheck } from "../store";
+import { useRecoilState } from "recoil";
+
+// styles
 import {
   InviteModalWrapper,
   InviteModalBg,
@@ -9,13 +19,6 @@ import {
   InviteModalJoinBtnDisabled,
   InviteModalJoinBtnActive,
 } from "../styles/components/InviteModal";
-
-import { activeModal, inviteNumber, isNumberCheck } from "../store";
-import { useRecoilState } from "recoil";
-import { useNavigate } from "react-router-dom";
-import { ChangeEventHandler } from "react";
-
-import io from "socket.io-client";
 
 const InviteModal = () => {
   const socket = io();
@@ -53,7 +56,7 @@ const InviteModal = () => {
   };
 
   // input에 사용자가 입력한 값의 길이를 검증한다.
-  const handleInviteNumberChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleInviteNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > 5) {
       e.target.value = e.target.value.slice(0, 5);
       isNumberOk(true);
