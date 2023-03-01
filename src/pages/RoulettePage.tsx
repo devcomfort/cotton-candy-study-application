@@ -1,7 +1,14 @@
 import { useState } from "react";
-import { Wheel } from "react-custom-roulette";
 
-import { RouletteWrapper, RuletteBtnWrap } from "../styles/pages/RoulettePage";
+// library
+import { Wheel } from "react-custom-roulette";
+import { useNavigate } from "react-router-dom";
+
+// components
+import FeedBackModal from "../components/FeedBackModal";
+
+// styles
+import { RouletteWrapper, RuletteBtnWrap, RuletteGoRootBtn } from "../styles/pages/RoulettePage";
 
 interface UserType {
   userDataArr: string[];
@@ -16,13 +23,19 @@ const RoulettePage = ({ userDataArr }: UserType) => {
   const [mustSpin, setMustSpin] = useState(false);
   // 당첨자의 배열 인덱싱
   const [prizeNumber, setPrizeNumber] = useState(0);
+  // 피드백 모달 활성화 여부 state
+  const [isInFeedBackModal, setIsInFeedBackModal] = useState(false);
 
   // props로 전달받은 소켓유저 가공 데이터
   const userOptions: UserData[] = userDataArr.map((userData) => ({ option: userData }));
+  // 가공된 데이터를 State에 저장
   const [userData, setUserData] = useState(userOptions);
+
+  const path = useNavigate();
 
   // 룰렛 스핀 시작함수
   const handleSpinClick = () => {
+    userData.length === 0 && alert("1명은 룰렛을 돌릴수가 없습니다.");
     const newPrizeNumber = Math.floor(Math.random() * userData.length);
     setPrizeNumber(newPrizeNumber);
     setMustSpin(true);
@@ -33,7 +46,6 @@ const RoulettePage = ({ userDataArr }: UserType) => {
   };
 
   // 당첨자가 나올시, 해당 당첨자를 배열에서 삭제하는 함수
-
   const deleteArrayClick = (newPrizeNumber: number) => {
     userData.splice(newPrizeNumber, 1);
     setUserData([...userData]);
@@ -45,11 +57,14 @@ const RoulettePage = ({ userDataArr }: UserType) => {
     }
   };
 
-  // 돌리기 누르고 당첨자 나올시 모달창 뛰우고 모달창 닫으면 배열 삭제,
-  // 모달창을 닫았을때 배열이 1개이면 모달 바로 뛰워서 당첨자 발표.
+  // 피드백 모달 클릭시, 모달 생성, FeedBackModal 컴포넌트로 props 전달
+  const handleFeedBackBtn = () => setIsInFeedBackModal((prev) => !prev);
+
+  const goRoot = () => path("/");
 
   return (
     <RouletteWrapper>
+      {isInFeedBackModal && <FeedBackModal isInFeedBackModal={handleFeedBackBtn} userDataArr={userDataArr} />}
       <Wheel
         mustStartSpinning={mustSpin}
         onStopSpinning={() => setMustSpin(false)}
@@ -59,9 +74,12 @@ const RoulettePage = ({ userDataArr }: UserType) => {
         textColors={["#ffffff"]}
         spinDuration={0.3}
       />
-      <RuletteBtnWrap>
-        <button onClick={handleSpinClick}>돌리기</button>
-      </RuletteBtnWrap>
+      {userData.length === 0 ? (
+        <RuletteBtnWrap onClick={handleFeedBackBtn}>발표자 피드백 남기기</RuletteBtnWrap>
+      ) : (
+        <RuletteBtnWrap onClick={handleSpinClick}>돌리기</RuletteBtnWrap>
+      )}
+      <RuletteGoRootBtn onClick={goRoot}>나가기</RuletteGoRootBtn>
     </RouletteWrapper>
   );
 };

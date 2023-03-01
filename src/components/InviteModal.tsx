@@ -1,3 +1,10 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+// socket
+import io from "socket.io-client";
+
+// styles
 import {
   InviteModalWrapper,
   InviteModalBg,
@@ -10,31 +17,25 @@ import {
   InviteModalJoinBtnActive,
 } from "../styles/components/InviteModal";
 
-import { activeModal, inviteNumber, isNumberCheck } from "../store";
-import { useRecoilState } from "recoil";
-import { useNavigate } from "react-router-dom";
-import { ChangeEventHandler } from "react";
+// props type
+interface ModalType {
+  handleActivityModalBtn: () => void;
+}
 
-import io from "socket.io-client";
+const InviteModal = (props: ModalType) => {
+  const [inviteNum, setInviteNum] = useState(0);
+  const [numberOk, isNumberOk] = useState(false);
 
-const InviteModal = () => {
-  const socket = io();
-  const [activityModal, setActivityModal] = useRecoilState(activeModal);
-  const [inviteNum, setInviteNum] = useRecoilState(inviteNumber);
-  const [numberOk, isNumberOk] = useRecoilState(isNumberCheck);
+  const path = useNavigate();
 
-  // 번호 모두 입력시 버튼 활성화
-
-  const navigate = useNavigate();
-  const handleModalCancleBtn = () => {
-    setActivityModal(false);
-    isNumberOk(false);
-  };
+  // 상위컴포넌트인 Logged의 props 함수를 호출하여 modal state 값을 상위에서 변경
+  const handleModalCancleBtn = () => props.handleActivityModalBtn();
 
   /** 입장하기 함수
    *   - 백엔드 api로 post요청을하여, DB상에 생성된 방이 있는지 검증 후 true일 경우 방 참여
    */
   const handleEnterRoomInBtn = async () => {
+    const socket = io();
     const data = await fetch("http://localhost:3002/api/rooms/:inviteNum", {
       method: "POST",
       body: new URLSearchParams({
@@ -43,26 +44,23 @@ const InviteModal = () => {
     });
     const json = await data.json();
     if (json.result) {
-      navigate(`/rooms/:${inviteNum}`);
+      path(`/rooms/:${inviteNum}`);
       socket.emit("enterRoom", inviteNum);
       return;
     } else {
       return alert("해당 방은 존재하지 않습니다.");
     }
-    //localhost:3002/api/rooms/:inviteCode
   };
 
   // input에 사용자가 입력한 값의 길이를 검증한다.
-  const handleInviteNumberChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleInviteNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > 5) {
       e.target.value = e.target.value.slice(0, 5);
       isNumberOk(true);
     } else if (e.target.value.length === 4) {
       isNumberOk(true);
     }
-    const num = Number(e.target.value);
-    setInviteNum(num);
-    console.log(inviteNum);
+    setInviteNum(Number(e.target.value));
   };
 
   return (

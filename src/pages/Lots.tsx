@@ -1,3 +1,4 @@
+// components
 import LotsBox from "../components/LotsBox";
 
 interface UserType {

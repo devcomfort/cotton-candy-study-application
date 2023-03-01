@@ -22,4 +22,21 @@ export const RuletteBtnWrap = styled.div`
   color: #f7f8f8;
   font-weight: bold;
   font-size: 18px;
+  cursor: pointer;
+`;
+
+export const RuletteGoRootBtn = styled.div`
+  width: 100%;
+  height: 40px;
+  max-width: 70%;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: salmon;
+  border-radius: 10px;
+  color: #f7f8f8;
+  font-weight: bold;
+  font-size: 18px;
+  cursor: pointer;
 `;

@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+// Socket
+import { io } from "socket.io-client";
+
+// Global States
 import { useRecoilState } from "recoil";
 import { roomNumberSet } from "../store";
+
+// styles
 import { ApplicationTitle } from "../styles/components/ApplicationTitle";
 import {
   ContentsWrap,
@@ -15,8 +23,6 @@ import {
   RoomExitBtn,
   RouletteBtn,
 } from "../styles/pages/MainPage";
-import { io } from "socket.io-client";
-import { useNavigate } from "react-router-dom";
 
 interface UserType {
   MainPageProps: (userList: string[]) => void;
@@ -34,11 +40,13 @@ const MainPage = ({ MainPageProps }: UserType) => {
   });
 
   useEffect(() => {
-    // 사파리에서 접속했을경우 방장이 안뜸
+    const inviteCode = window.location.pathname.substring(8);
+    const userName = localStorage.getItem("StudyName");
+    socket.emit("enterRoom", inviteCode, userName);
+    socket.on("memberList", (members) => setUserList([...members]));
+    setRoomNum(inviteCode);
     socket.on("welcome", (userMsg: string, members) => {
-      console.log(members);
       setUserList([...members]);
-      console.log(userList);
       MainPageProps(members);
     });
 
@@ -52,14 +60,6 @@ const MainPage = ({ MainPageProps }: UserType) => {
         return userdata;
       });
     });
-  }, []);
-
-  useEffect(() => {
-    const inviteCode = window.location.pathname.substring(8);
-    const userName = localStorage.getItem("StudyName");
-    socket.emit("enterRoom", inviteCode, userName);
-    socket.on("memberList", (members) => setUserList([...members]));
-    setRoomNum(inviteCode);
   }, []);
 
   // 초대코드 복사 기능
