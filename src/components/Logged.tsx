@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Global States
-import { activeModal, roomNumberSet } from "../store";
+import { roomNumberSet } from "../store";
 import { useRecoilState } from "recoil";
 
 // assets
@@ -20,7 +21,7 @@ interface StorageType {
 const Logged = (props: StorageType) => {
   const userName = localStorage.getItem("StudyName");
   const [roomNum, setRoomNum] = useRecoilState(roomNumberSet);
-  const [activityModal, setActivityModal] = useRecoilState(activeModal);
+  const [activityModal, setActivityModal] = useState(false);
 
   const path = useNavigate();
 
