@@ -14,7 +14,7 @@ const Lots = ({ userDataArr }: UserType) => {
         maxWidth: "860px",
       }}
     >
-      <LotsBox />
+      <LotsBox userDataArr={userDataArr} />
     </div>
   );
 };
