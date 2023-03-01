@@ -31,6 +31,9 @@ const InviteModal = () => {
     isNumberOk(false);
   };
 
+  /** 입장하기 함수
+   *   - 백엔드 api로 post요청을하여, DB상에 생성된 방이 있는지 검증 후 true일 경우 방 참여
+   */
   const handleEnterRoomInBtn = async () => {
     const data = await fetch("http://localhost:3002/api/rooms/:inviteNum", {
       method: "POST",
@@ -40,8 +43,6 @@ const InviteModal = () => {
     });
     const json = await data.json();
     if (json.result) {
-      setActivityModal(false);
-      isNumberOk(false);
       navigate(`/rooms/:${inviteNum}`);
       socket.emit("enterRoom", inviteNum);
       return;
@@ -51,6 +52,7 @@ const InviteModal = () => {
     //localhost:3002/api/rooms/:inviteCode
   };
 
+  // input에 사용자가 입력한 값의 길이를 검증한다.
   const handleInviteNumberChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     if (e.target.value.length > 5) {
       e.target.value = e.target.value.slice(0, 5);
