@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-// state
+// Global States
 import { activeModal, roomNumberSet } from "../store";
 import { useRecoilState } from "recoil";
 
@@ -34,6 +34,7 @@ const Logged = (props: StorageType) => {
     path(`/rooms/:${json.inviteCode}`);
   };
 
+  // URl 경로 /feedback으로 이동하는 함수
   const pathFeedBack = () => path("/feedback");
 
   /** 스터디룸 입장모달 활성화 */
