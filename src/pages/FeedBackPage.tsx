@@ -35,6 +35,7 @@ const FeedBackPage = () => {
     e.preventDefault();
     const data = await fetch(`http://localhost:3002/feadback/myfeadback?iam=${userName}`);
     const json = await data.json();
+    if (json.message) return alert("피드백 사용자가 없습니다.");
     setFeedBackData(json);
   };
   return (
@@ -46,7 +47,7 @@ const FeedBackPage = () => {
       </FeedBackGetUserWrap>
 
       <FeedBackSection>
-        {feedbackData?.feadbacks.map((data, i) => {
+        {feedbackData?.feadbacks?.map((data, i) => {
           return (
             <FeedBackInfo key={i}>
               <FeedBackUserHeaderInfo>
