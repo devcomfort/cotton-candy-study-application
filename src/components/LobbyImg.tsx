@@ -1,4 +1,7 @@
+// assets
 import logo from "../assets/logo/logo.png";
+
+// styles
 import { ApplicationTitle } from "../styles/components/ApplicationTitle";
 import { LobbyWrap, LobbyImgLogo } from "../styles/components/LobbyImg";
 
