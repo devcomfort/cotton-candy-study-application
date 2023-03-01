@@ -1,8 +1,14 @@
 import React, { useState } from "react";
-import LobbyImg from "./LobbyImg";
-import { NotLoginWrap, InvalidUserSection, InvalidUserDesc, InvalidUserForm, InvalidUserInput, InvalidUserBtn } from "../styles/components/NotLogin";
+
+// Global States
 import { useRecoilState } from "recoil";
 import { IsStorageName } from "../store";
+
+// assets
+import LobbyImg from "./LobbyImg";
+
+// styles
+import { NotLoginWrap, InvalidUserSection, InvalidUserDesc, InvalidUserForm, InvalidUserInput, InvalidUserBtn } from "../styles/components/NotLogin";
 
 const NotLogin = () => {
   const [userName, setUserName] = useState<string>("");
