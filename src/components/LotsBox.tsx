@@ -1,11 +1,13 @@
 import { useState } from "react";
+
+// library
 import Confetti from "react-confetti";
-import {
-  LotsBoxWrap,
-  LotsBtn,
-  DefaultLotsBox,
-  ShakingLotsBox,
-} from "../styles/components/LotsBox";
+
+// components
+import FeedBackModal from "../components/FeedBackModal";
+
+// styles
+import { LotsBoxWrap, LotsBtn, DefaultLotsBox, ShakingLotsBox } from "../styles/components/LotsBox";
 
 interface UserType {
   userDataArr: string[];
@@ -22,6 +24,8 @@ const LotsBox = ({ userDataArr }: UserType) => {
   const [userData, setUserData] = useState(userDataArr);
   // 뽑힌 사람들이 역순으로 들어간 배열 state
   const [pickupData, setPickupData] = useState<string[]>([]);
+  // 피드백 모달 활성화 여부 state
+  const [isInFeedBackModal, setIsInFeedBackModal] = useState(false);
 
   // 박스가 흔들릴때의 함수
   const onShakeBox = () => {
@@ -67,12 +71,22 @@ const LotsBox = ({ userDataArr }: UserType) => {
     setUserData([...userData]);
   };
 
+  // 피드백 모달 클릭시, 모달 생성, FeedBackModal 컴포넌트로 props 전달
+  const handleFeedBackBtn = () => setIsInFeedBackModal((prev) => !prev);
+
   return (
     <LotsBoxWrap>
       <h1>제비 뽑기</h1>
+      {/* 1. 솜사탕 작업 목록  isInFeedBackModal 값에 따라 피드백 컴포넌트 렌더링 */}
+      {isInFeedBackModal && <FeedBackModal isInFeedBackModal={handleFeedBackBtn} userDataArr={userDataArr} />}
       {isShakeConfetti ? <Confetti recycle={false} gravity={0.5} /> : null}
       {isShakeBox ? <ShakingLotsBox /> : <DefaultLotsBox />}
-      {userData.length === 0 ? null : (
+      {userData.length === 0 ? (
+        // userData.length 값이 0일시 피드백을 남길수 있는 함수 컴포넌트로 렌더링
+        <div style={{ width: "100%", display: "flex" }}>
+          <LotsBtn onClick={handleFeedBackBtn}>피드백 남기기</LotsBtn>
+        </div>
+      ) : (
         <div style={{ width: "100%", display: "flex" }}>
           <LotsBtn onClick={onShakeBox}>제비뽑기 시작</LotsBtn>
         </div>
@@ -81,8 +95,6 @@ const LotsBox = ({ userDataArr }: UserType) => {
       {pickupData.map((item, i) => (
         <span key={i}>{item}</span>
       ))}
-      {/* @솜사탕 작업할 곳 :: 다 뽑히고나면 피드백 모달창 출력 */}
-      {userData.length === 0 ? <></> : null}
     </LotsBoxWrap>
   );
 };
