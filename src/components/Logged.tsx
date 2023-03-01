@@ -1,14 +1,18 @@
 import { useNavigate } from "react-router-dom";
-import LobbyImg from "./LobbyImg";
-import { LoginInfoWrapper, LoginUserName, LoginCreateJoinWrapper, LoginCreateRoom, LoginEnterRoomIn, LoginSearchFeedBack } from "../styles/components/Logged";
 
+// state
 import { activeModal, roomNumberSet } from "../store";
 import { useRecoilState } from "recoil";
 
-import io from "socket.io-client";
+// assets
+import LobbyImg from "./LobbyImg";
 
+// components
 import InviteModal from "./InviteModal";
-import { useState } from "react";
+
+// styles
+import { LoginInfoWrapper, LoginUserName, LoginCreateJoinWrapper, LoginCreateRoom, LoginEnterRoomIn, LoginSearchFeedBack } from "../styles/components/Logged";
+
 interface StorageType {
   storageName: string;
 }
