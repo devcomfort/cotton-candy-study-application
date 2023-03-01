@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { activeModal, roomNumberSet } from "../store";
+import { roomNumberSet } from "../store";
 import { ApplicationTitle } from "../styles/components/ApplicationTitle";
 import {
   ContentsWrap,
@@ -20,29 +20,44 @@ import { useNavigate } from "react-router-dom";
 
 const MainPage = () => {
   const [roomNum, setRoomNum] = useRecoilState(roomNumberSet);
-  const [activityModal, setActivityModal] = useRecoilState(activeModal);
+  const [userMsg, setUserMsg] = useState([localStorage.getItem("StudyName")]);
   const path = useNavigate();
 
-  useEffect(() => {
-    const socket = io("http://localhost:3002", {
-      transports: ["websocket"],
-    });
+  const socket = io("http://localhost:3002", {
+    transports: ["websocket"],
+  });
 
+  useEffect(() => {
+    // 사파리에서 접속했을경우 방장이 안뜸
+    socket.on("welcome", (userMsg: string) => {
+      setUserMsg((defaultUser) => {
+        return [...defaultUser, userMsg];
+      });
+    });
+    socket.on("bye", (userName: string) => {
+      const userList = userMsg.filter((data) => data !== userName);
+      setUserMsg([...userList]);
+    });
+  }, []);
+
+  useEffect(() => {
     const inviteCode = window.location.pathname.substring(8);
     const userName = localStorage.getItem("StudyName");
     socket.emit("enterRoom", inviteCode, userName);
+
     setRoomNum(inviteCode);
-  });
+  }, []);
 
-  const onLeaveRoom = () => {
-    // 소켓 io 방 나가기
-    path("/");
-  };
-
+  // 초대코드 복사 기능
   const copyInviteCode = async () => {
     const inviteCode = window.location.pathname.substring(8);
     await navigator.clipboard.writeText(`${inviteCode}`);
     alert("초대 코드 복사 완료!");
+  };
+
+  // 소켓 io 방 나가기
+  const onLeaveRoom = () => {
+    path("/");
   };
 
   // 룰렛 페이지로 가기
@@ -54,9 +69,6 @@ const MainPage = () => {
   const goLots = () => {
     path("/random/lots");
   };
-
-  /** 스터디룸 입장모달 활성화 */
-  const handleModalShowBtn = () => setActivityModal(true);
 
   return (
     <MainWrap>
@@ -71,11 +83,16 @@ const MainPage = () => {
       <ContentsWrap>
         <MemberList>
           <strong>유저 리스트</strong>
-          <div onClick={handleModalShowBtn} style={{ cursor: "pointer" }}>
-            이름
-          </div>
+          {/* {userMsg?.map((userName, i) => (
+            <div key={i}>{userName}</div>
+          ))} */}
         </MemberList>
-        <MemberHistory></MemberHistory>
+        <MemberHistory>
+          <div id="joinmsg"></div>
+          {userMsg?.map((userName, i) => (
+            <div key={i}>{`${userName}님이 입장하였습니다.`}</div>
+          ))}
+        </MemberHistory>
       </ContentsWrap>
       {/** 방장(rank 1)만 보이는 버튼 */}
       <MainPageBtnWrap>
