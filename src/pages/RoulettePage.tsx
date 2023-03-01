@@ -1,7 +1,12 @@
 import { useState } from "react";
+
+// library
 import { Wheel } from "react-custom-roulette";
+
+// components
 import FeedBackModal from "../components/FeedBackModal";
 
+// styles
 import { RouletteWrapper, RuletteBtnWrap } from "../styles/pages/RoulettePage";
 
 interface UserType {
@@ -17,11 +22,12 @@ const RoulettePage = ({ userDataArr }: UserType) => {
   const [mustSpin, setMustSpin] = useState(false);
   // 당첨자의 배열 인덱싱
   const [prizeNumber, setPrizeNumber] = useState(0);
-
+  // 피드백 모달 활성화 여부 state
   const [isInFeedBackModal, setIsInFeedBackModal] = useState(false);
 
   // props로 전달받은 소켓유저 가공 데이터
   const userOptions: UserData[] = userDataArr.map((userData) => ({ option: userData }));
+  // 가공된 데이터를 State에 저장
   const [userData, setUserData] = useState(userOptions);
 
   // 룰렛 스핀 시작함수
@@ -66,9 +72,6 @@ const RoulettePage = ({ userDataArr }: UserType) => {
         textColors={["#ffffff"]}
         spinDuration={0.3}
       />
-      {/* <RuletteBtnWrap>
-        <button onClick={handleSpinClick}>돌리기</button>
-      </RuletteBtnWrap> */}
       {userData.length === 0 ? (
         <RuletteBtnWrap>
           <button onClick={handleFeedBackBtn}>발표자 피드백 남기기</button>
