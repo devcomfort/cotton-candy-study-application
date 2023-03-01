@@ -1,68 +1,77 @@
-import { activeModal, inviteNumber, isNumberCheck } from "../store";
+import { useState } from "react";
+
 import { useRecoilState } from "recoil";
-import { useNavigate } from "react-router-dom";
-import { ChangeEventHandler } from "react";
+import { roomNumberSet } from "../store";
+
 import {
-  InviteModalWrapper,
-  InviteModalBg,
-  InviteModalTitle,
-  InviteModalInfoWrap,
-  InviteModalBtnWrapper,
-  InviteModalCancleBtn,
-  InviteModalJoinBtnDisabled,
-  InviteModalJoinBtnActive,
-} from "../styles/components/InviteModal";
+  FeedBackContainer,
+  FeedBackTitle,
+  FeedBackSelect,
+  FeedBackOption,
+  FeedBackForm,
+  FeedBackInputData,
+  FeedBackFooter,
+  FeedBackPostBtn,
+  FeedBackCancleBtn,
+} from "../styles/components/FeedBackModal";
 
-const FeedBackModal = () => {
-  const [activityModal, setActivityModal] = useRecoilState(activeModal);
-  const [inviteNum, setInviteNum] = useRecoilState(inviteNumber);
-  const [numberOk, isNumberOk] = useRecoilState(isNumberCheck);
+interface ModalType {
+  isInFeedBackModal: () => void;
+  userDataArr: string[];
+}
 
-  // 번호 모두 입력시 버튼 활성화
+const FeedBackModal = (props: ModalType) => {
+  const [text, setText] = useState("");
+  const [roomNum, setRoomNum] = useRecoilState(roomNumberSet);
+  const [feedBackUserList, setFeedBackUserList] = useState(props.userDataArr[0]);
 
-  const navigate = useNavigate();
+  // 유저리스트 셀렉 함수
+  const selectedUserList = (e: React.ChangeEvent<HTMLSelectElement>) => setFeedBackUserList(e.target.value);
 
-  const handleModalCancleBtn = () => {
-    setActivityModal(false);
-    isNumberOk(false);
+  // 피드백 POST API
+  const submitFeedBackPost = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const myName = localStorage.getItem("StudyName");
+    await fetch("http://localhost:3002/feadback/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        roomCode: roomNum,
+        giverName: myName,
+        evaluatedName: feedBackUserList,
+        message: text,
+      }),
+    });
+    alert(`${myName}님 ${feedBackUserList}님 에게 피드백을 남겼습니다 !`);
+    setText("");
   };
 
-  const handleEnterRoomInBtn = () => {
-    console.log("방입장 소켓 연동시 이용가능");
-    setActivityModal(false);
-    isNumberOk(false);
-    navigate("/main");
-  };
+  // textarea value state에 저장
+  const feedBackInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => setText(e.target.value);
 
-  const handleInviteNumberChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    if (e.target.value.length > 5) {
-      e.target.value = e.target.value.slice(0, 5);
-      isNumberOk(true);
-    } else if (e.target.value.length === 5) {
-      isNumberOk(true);
-    }
-    const num = Number(e.target.value);
-    setInviteNum(num);
-    console.log(inviteNum);
-  };
+  // 상위 컴포넌트 페이지인 RouleetePage에 셋팅된 함수를 호출하여 state의 반대값을 저장
+  const handleCloseFeedBackModal = () => props.isInFeedBackModal();
 
   return (
-    <InviteModalWrapper>
-      <InviteModalBg>
-        <InviteModalTitle>devcomfort 피드백하기</InviteModalTitle>
-        <InviteModalInfoWrap>
-          <textarea style={{ width: "100%", height: "160px" }} />
-          <InviteModalBtnWrapper>
-            <InviteModalCancleBtn onClick={handleModalCancleBtn}>취소</InviteModalCancleBtn>
-            {numberOk ? (
-              <InviteModalJoinBtnActive onClick={handleEnterRoomInBtn}>입장</InviteModalJoinBtnActive>
-            ) : (
-              <InviteModalJoinBtnDisabled>입장</InviteModalJoinBtnDisabled>
-            )}
-          </InviteModalBtnWrapper>
-        </InviteModalInfoWrap>
-      </InviteModalBg>
-    </InviteModalWrapper>
+    <FeedBackContainer>
+      <FeedBackTitle>
+        피드백 전송하기
+        <FeedBackSelect onChange={selectedUserList}>
+          {props.userDataArr?.map((data, i) => (
+            <FeedBackOption key={i}>{data}</FeedBackOption>
+          ))}
+        </FeedBackSelect>
+        <FeedBackForm onSubmit={submitFeedBackPost}>
+          <FeedBackInputData onChange={feedBackInput} value={text} />
+          <FeedBackFooter>
+            {text.length === 0 ? <FeedBackPostBtn className="post_disabled">피드백 전송</FeedBackPostBtn> : <FeedBackPostBtn>피드백 전송</FeedBackPostBtn>}
+            <FeedBackCancleBtn onClick={handleCloseFeedBackModal}>닫기</FeedBackCancleBtn>
+          </FeedBackFooter>
+        </FeedBackForm>
+      </FeedBackTitle>
+    </FeedBackContainer>
   );
 };
 
