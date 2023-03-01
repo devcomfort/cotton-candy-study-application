@@ -7,13 +7,19 @@ interface UserType {
   userDataArr: string[];
 }
 
+interface UserData {
+  option: string;
+}
+
 const RoulettePage = ({ userDataArr }: UserType) => {
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
 
-  // 더미데이터
-  const userInfo = [{ option: "솜사탕" }, { option: "비니루" }, { option: "데브" }, { option: "준서" }, { option: "혜린" }];
-  const [userData, setUserData] = useState(userInfo);
+  // props로 전달받은 소켓유저 가공 데이터
+  const userOptions: UserData[] = userDataArr.map((userData) => ({ option: userData }));
+  const [userData, setUserData] = useState(userOptions);
+
+  console.log(userDataArr);
 
   const handleSpinClick = () => {
     const newPrizeNumber = Math.floor(Math.random() * userData.length);
@@ -22,7 +28,7 @@ const RoulettePage = ({ userDataArr }: UserType) => {
     setTimeout(() => {
       alert(`당첨자 : ${userData[newPrizeNumber].option}`);
       deleteArrayClick(newPrizeNumber);
-    }, 1500);
+    }, 3800);
   };
 
   const deleteArrayClick = (newPrizeNumber: number) => {
@@ -36,8 +42,6 @@ const RoulettePage = ({ userDataArr }: UserType) => {
     }
   };
 
-  console.log(userData.length);
-
   // 돌리기 누르고 당첨자 나올시 모달창 뛰우고 모달창 닫으면 배열 삭제,
   // 모달창을 닫았을때 배열이 1개이면 모달 바로 뛰워서 당첨자 발표.
 
@@ -50,7 +54,7 @@ const RoulettePage = ({ userDataArr }: UserType) => {
         data={userData}
         backgroundColors={["#3e3e3e", "#df3428", "blue", "green", "orange", "teal"]}
         textColors={["#ffffff"]}
-        spinDuration={0.1}
+        spinDuration={0.3}
       />
       <RuletteBtnWrap>
         <button onClick={handleSpinClick}>돌리기</button>
