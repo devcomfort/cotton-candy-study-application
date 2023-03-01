@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // styles
 import { ApplicationTitle } from "../styles/components/ApplicationTitle";
@@ -27,6 +28,7 @@ interface Response {
 const FeedBackPage = () => {
   const [userName, setUserName] = useState("");
   const [feedbackData, setFeedBackData] = useState<Response>();
+  const path = useNavigate();
 
   // input value state에 저장
   const handleSetFeedBackUserName = (e: React.ChangeEvent<HTMLInputElement>) => setUserName(e.target.value);
@@ -39,6 +41,8 @@ const FeedBackPage = () => {
     if (json.message) return alert("피드백 사용자가 없습니다.");
     setFeedBackData(json);
   };
+
+  const goRoot = () => path("/");
 
   return (
     <FeedBackWrapper>
@@ -61,7 +65,7 @@ const FeedBackPage = () => {
           );
         })}
       </FeedBackSection>
-      <FeedBackGoRootBtn>나가기</FeedBackGoRootBtn>
+      <FeedBackGoRootBtn onClick={goRoot}>나가기</FeedBackGoRootBtn>
     </FeedBackWrapper>
   );
 };
