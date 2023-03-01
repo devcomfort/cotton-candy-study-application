@@ -12,15 +12,16 @@ interface UserData {
 }
 
 const RoulettePage = ({ userDataArr }: UserType) => {
+  // spin start or stop state
   const [mustSpin, setMustSpin] = useState(false);
+  // 당첨자의 배열 인덱싱
   const [prizeNumber, setPrizeNumber] = useState(0);
 
   // props로 전달받은 소켓유저 가공 데이터
   const userOptions: UserData[] = userDataArr.map((userData) => ({ option: userData }));
   const [userData, setUserData] = useState(userOptions);
 
-  console.log(userDataArr);
-
+  // 룰렛 스핀 시작함수
   const handleSpinClick = () => {
     const newPrizeNumber = Math.floor(Math.random() * userData.length);
     setPrizeNumber(newPrizeNumber);
@@ -30,6 +31,8 @@ const RoulettePage = ({ userDataArr }: UserType) => {
       deleteArrayClick(newPrizeNumber);
     }, 3800);
   };
+
+  // 당첨자가 나올시, 해당 당첨자를 배열에서 삭제하는 함수
 
   const deleteArrayClick = (newPrizeNumber: number) => {
     userData.splice(newPrizeNumber, 1);
