@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
+// styles
 import { ApplicationTitle } from "../styles/components/ApplicationTitle";
 import {
   FeedBackWrapper,
@@ -11,6 +13,7 @@ import {
   FeedBackMsg,
 } from "../styles/pages/FeedBackPage";
 
+// FeedBackData State Type 지정
 type Feedback = Record<"roomCode" | "evaluatedName" | "content" | "_id" | "__v" | "createdAt", string>;
 
 interface Response {
@@ -23,8 +26,11 @@ interface Response {
 const FeedBackPage = () => {
   const [userName, setUserName] = useState("");
   const [feedbackData, setFeedBackData] = useState<Response>();
+
+  // input value state에 저장
   const handleSetFeedBackUserName = (e: React.ChangeEvent<HTMLInputElement>) => setUserName(e.target.value);
 
+  // 사용자의 피드백 히스토리 서버로부터 Get 요청
   const getFeedBackUserName = async (e: React.FormEvent) => {
     e.preventDefault();
     const data = await fetch(`http://localhost:3002/feadback/myfeadback?iam=${userName}`);
