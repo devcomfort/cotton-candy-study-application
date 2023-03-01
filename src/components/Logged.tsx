@@ -25,7 +25,6 @@ const Logged = (props: StorageType) => {
       method: "POST",
     });
     const json = await data.json();
-    console.log(json.inviteCode);
     setRoomNum(json.inviteCode);
     path(`/rooms/:${json.inviteCode}`);
   };
@@ -42,15 +41,9 @@ const Logged = (props: StorageType) => {
       <LoginInfoWrapper>
         <LoginUserName>{userName}님, 환영합니다.</LoginUserName>
         <LoginCreateJoinWrapper>
-          <LoginCreateRoom onClick={pathCreateRoom}>
-            새로운 스터디룸 생성하기
-          </LoginCreateRoom>
-          <LoginEnterRoomIn onClick={handleModalShowBtn}>
-            친구들의 스터디룸 입장하기 (초대코드)
-          </LoginEnterRoomIn>
-          <LoginSearchFeedBack onClick={pathFeedBack}>
-            피드백 검색하기
-          </LoginSearchFeedBack>
+          <LoginCreateRoom onClick={pathCreateRoom}>새로운 스터디룸 생성하기</LoginCreateRoom>
+          <LoginEnterRoomIn onClick={handleModalShowBtn}>친구들의 스터디룸 입장하기 (초대코드)</LoginEnterRoomIn>
+          <LoginSearchFeedBack onClick={pathFeedBack}>피드백 검색하기</LoginSearchFeedBack>
         </LoginCreateJoinWrapper>
       </LoginInfoWrapper>
     </>
