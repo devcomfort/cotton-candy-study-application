@@ -47,9 +47,7 @@ const MainPage = ({ MainPageProps }: UserType) => {
     setRoomNum(inviteCode);
     // 사파리에서 접속했을경우 방장이 안뜸
     socket.on("welcome", (userMsg: string, members) => {
-      console.log(members);
       setUserList([...members]);
-      console.log(userList);
       MainPageProps(members);
     });
 
