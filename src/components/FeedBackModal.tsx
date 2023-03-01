@@ -1,8 +1,10 @@
 import { useState } from "react";
 
+// Global States
 import { useRecoilState } from "recoil";
 import { roomNumberSet } from "../store";
 
+// components
 import {
   FeedBackContainer,
   FeedBackTitle,
@@ -51,7 +53,7 @@ const FeedBackModal = (props: ModalType) => {
   // textarea value state에 저장
   const feedBackInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => setText(e.target.value);
 
-  // 상위 컴포넌트 페이지인 RouleetePage에 셋팅된 함수를 호출하여 state의 반대값을 저장
+  // 상위 컴포넌트 페이지인 Roulette, LotsBox 셋팅된 함수를 호출하여 state의 반대값을 저장하여 모달을 닫는 함수
   const handleCloseFeedBackModal = () => props.isInFeedBackModal();
 
   return (
