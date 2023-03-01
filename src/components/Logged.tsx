@@ -20,6 +20,7 @@ const Logged = (props: StorageType) => {
 
   const path = useNavigate();
 
+  // 백엔드로 방생성 API Post 함수
   const pathCreateRoom = async () => {
     const data = await fetch("http://localhost:3002/api/rooms", {
       method: "POST",
