@@ -3,12 +3,16 @@ import { Wheel } from "react-custom-roulette";
 
 import { RouletteWrapper, RuletteBtnWrap } from "../styles/pages/RoulettePage";
 
-const RoulettePage = () => {
+interface UserType {
+  userDataArr: string[];
+}
+
+const RoulettePage = ({ userDataArr }: UserType) => {
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
 
   // 더미데이터
-  const userInfo = [{ option: "1.솜사탕" }, { option: "2.비니루" }, { option: "3.데브" }, { option: "4.준서" }, { option: "5.혜린" }];
+  const userInfo = [{ option: "솜사탕" }, { option: "비니루" }, { option: "데브" }, { option: "준서" }, { option: "혜린" }];
   const [userData, setUserData] = useState(userInfo);
 
   const handleSpinClick = () => {

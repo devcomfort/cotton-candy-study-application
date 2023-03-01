@@ -1,6 +1,10 @@
 import LotsBox from "../components/LotsBox";
 
-const Lots = () => {
+interface UserType {
+  userDataArr: string[];
+}
+
+const Lots = ({ userDataArr }: UserType) => {
   return (
     <div
       style={{
