@@ -18,9 +18,15 @@ import {
 import { io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 
-const MainPage = () => {
+interface UserType {
+  MainPageProps: (userList: string[]) => void;
+}
+
+const MainPage = ({ MainPageProps }: UserType) => {
   const [roomNum, setRoomNum] = useRecoilState(roomNumberSet);
   const [userMsg, setUserMsg] = useState([localStorage.getItem("StudyName")]);
+  const [userList, setUserList] = useState<string[]>([]);
+  const [isInGetExit, setIsInGetExit] = useState<boolean>(true);
   const path = useNavigate();
 
   const socket = io("http://localhost:3002", {
@@ -29,14 +35,22 @@ const MainPage = () => {
 
   useEffect(() => {
     // 사파리에서 접속했을경우 방장이 안뜸
-    socket.on("welcome", (userMsg: string) => {
-      setUserMsg((defaultUser) => {
-        return [...defaultUser, userMsg];
-      });
+    socket.on("welcome", (userMsg: string, members) => {
+      console.log(members);
+      setUserList([...members]);
+      console.log(userList);
+      MainPageProps(members);
     });
+
     socket.on("bye", (userName: string) => {
-      const userList = userMsg.filter((data) => data !== userName);
-      setUserMsg([...userList]);
+      const userdata = userMsg.filter((data) => data !== userName);
+      setUserList((prev: any) => {
+        return [...prev, userdata];
+      });
+      setUserMsg(() => {
+        const userdata = userMsg.filter((data) => data === userName);
+        return userdata;
+      });
     });
   }, []);
 
@@ -44,7 +58,7 @@ const MainPage = () => {
     const inviteCode = window.location.pathname.substring(8);
     const userName = localStorage.getItem("StudyName");
     socket.emit("enterRoom", inviteCode, userName);
-
+    socket.on("memberList", (members) => setUserList([...members]));
     setRoomNum(inviteCode);
   }, []);
 
@@ -57,6 +71,10 @@ const MainPage = () => {
 
   // 소켓 io 방 나가기
   const onLeaveRoom = () => {
+    const userName = localStorage.getItem("StudyName");
+    const inviteCode = window.location.pathname.substring(8);
+    // 방나갈시 유저닉네임, 방번호
+    socket.emit("leave", userName, inviteCode);
     path("/");
   };
 
@@ -83,15 +101,15 @@ const MainPage = () => {
       <ContentsWrap>
         <MemberList>
           <strong>유저 리스트</strong>
-          {/* {userMsg?.map((userName, i) => (
+          {userList?.map((userName, i) => (
             <div key={i}>{userName}</div>
-          ))} */}
+          ))}
         </MemberList>
         <MemberHistory>
           <div id="joinmsg"></div>
-          {userMsg?.map((userName, i) => (
-            <div key={i}>{`${userName}님이 입장하였습니다.`}</div>
-          ))}
+          {isInGetExit
+            ? userList?.map((userName, i) => <div key={i}>{`${userName}님이 입장하였습니다.`}</div>)
+            : userMsg?.map((userName, i) => <div key={i}>{`${userName}님이 퇴장하였습니다.`}</div>)}
         </MemberHistory>
       </ContentsWrap>
       {/** 방장(rank 1)만 보이는 버튼 */}
