@@ -2,6 +2,7 @@ import { useState } from "react";
 
 // library
 import { Wheel } from "react-custom-roulette";
+import { useNavigate } from "react-router-dom";
 
 // components
 import FeedBackModal from "../components/FeedBackModal";
@@ -30,6 +31,8 @@ const RoulettePage = ({ userDataArr }: UserType) => {
   // 가공된 데이터를 State에 저장
   const [userData, setUserData] = useState(userOptions);
 
+  const path = useNavigate();
+
   // 룰렛 스핀 시작함수
   const handleSpinClick = () => {
     userData.length === 0 && alert("1명은 룰렛을 돌릴수가 없습니다.");
@@ -57,8 +60,7 @@ const RoulettePage = ({ userDataArr }: UserType) => {
   // 피드백 모달 클릭시, 모달 생성, FeedBackModal 컴포넌트로 props 전달
   const handleFeedBackBtn = () => setIsInFeedBackModal((prev) => !prev);
 
-  // 돌리기 누르고 당첨자 나올시 모달창 뛰우고 모달창 닫으면 배열 삭제,
-  // 모달창을 닫았을때 배열이 1개이면 모달 바로 뛰워서 당첨자 발표.
+  const goRoot = () => path("/");
 
   return (
     <RouletteWrapper>
@@ -77,7 +79,7 @@ const RoulettePage = ({ userDataArr }: UserType) => {
       ) : (
         <RuletteBtnWrap onClick={handleSpinClick}>돌리기</RuletteBtnWrap>
       )}
-      <RuletteGoRootBtn onClick={handleSpinClick}>나가기</RuletteGoRootBtn>
+      <RuletteGoRootBtn onClick={goRoot}>나가기</RuletteGoRootBtn>
     </RouletteWrapper>
   );
 };
