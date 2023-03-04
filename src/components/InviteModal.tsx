@@ -4,6 +4,10 @@ import { useNavigate } from "react-router-dom";
 // socket
 import io from "socket.io-client";
 
+// Global States
+import { useRecoilState } from "recoil";
+import { roomNumberSet } from "../store";
+
 // styles
 import {
   InviteModalWrapper,
@@ -23,8 +27,10 @@ interface ModalType {
 }
 
 const InviteModal = (props: ModalType) => {
-  const [inviteNum, setInviteNum] = useState(0);
+  const userName = localStorage.getItem("StudyName");
+  const [inviteNum, setInviteNum] = useState<Number>();
   const [numberOk, isNumberOk] = useState(false);
+  const [roomNum, setRoomNum] = useRecoilState(roomNumberSet);
 
   const path = useNavigate();
 
@@ -35,17 +41,21 @@ const InviteModal = (props: ModalType) => {
    *   - 백엔드 api로 post요청을하여, DB상에 생성된 방이 있는지 검증 후 true일 경우 방 참여
    */
   const handleEnterRoomInBtn = async () => {
-    const socket = io();
-    const data = await fetch("http://localhost:3002/api/rooms/:inviteNum", {
+    const socket = io("http://localhost:3002", {
+      transports: ["websocket"],
+    });
+    const data = await fetch("http://localhost:3002/api/rooms/inviteCode", {
       method: "POST",
       body: new URLSearchParams({
-        inviteCode: `${inviteNum}`,
+        inviteCode: `${roomNum}`,
       }),
     });
     const json = await data.json();
+    console.log(json);
     if (json.result) {
-      path(`/rooms/:${inviteNum}`);
-      socket.emit("enterRoom", inviteNum);
+      socket.emit("searchAndJoinRoom", roomNum, userName);
+      console.log(roomNum);
+      path(`/rooms/:${roomNum}`);
       return;
     } else {
       return alert("해당 방은 존재하지 않습니다.");
@@ -60,7 +70,7 @@ const InviteModal = (props: ModalType) => {
     } else if (e.target.value.length === 4) {
       isNumberOk(true);
     }
-    setInviteNum(Number(e.target.value));
+    setRoomNum(e.target.value);
   };
 
   return (

@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Socket
+import { io } from "socket.io-client";
+
 // Global States
 import { roomNumberSet } from "../store";
 import { useRecoilState } from "recoil";
@@ -27,11 +30,16 @@ const Logged = (props: StorageType) => {
 
   // 백엔드로 방생성 API Post 함수
   const pathCreateRoom = async () => {
+    const socket = io("http://localhost:3002", {
+      transports: ["websocket"],
+    });
     const data = await fetch("http://localhost:3002/api/rooms", {
       method: "POST",
     });
     const json = await data.json();
     setRoomNum(json.inviteCode);
+    // Socket Rank(방장 emit 통신)
+    socket.emit("createAndJoinRoom", json.inviteCode, userName);
     path(`/rooms/:${json.inviteCode}`);
   };
 
