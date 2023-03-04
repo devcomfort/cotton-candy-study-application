@@ -33,48 +33,35 @@ const MainPage = ({ MainPageProps }: UserType) => {
   const [userMsg, setUserMsg] = useState([localStorage.getItem("StudyName")]);
   const [userList, setUserList] = useState<string[]>([]);
   const [isInGetExit, setIsInGetExit] = useState<boolean>(true);
+
+  const userName = localStorage.getItem("StudyName");
+  const inviteCode = window.location.pathname.substring(8);
   const path = useNavigate();
 
-  const socket = io("http://localhost:3002", {
-    transports: ["websocket"],
-  });
-
   useEffect(() => {
-    const inviteCode = window.location.pathname.substring(8);
-    const userName = localStorage.getItem("StudyName");
-    socket.emit("enterRoom", inviteCode, userName);
-    socket.on("memberList", (members) => setUserList([...members]));
-    setRoomNum(inviteCode);
-    socket.on("welcome", (userMsg: string, members) => {
-      setUserList([...members]);
-      MainPageProps(members);
-    });
-
-    socket.on("bye", (userName: string) => {
-      const userdata = userMsg.filter((data) => data !== userName);
-      setUserList((prev: any) => {
-        return [...prev, userdata];
-      });
-      setUserMsg(() => {
-        const userdata = userMsg.filter((data) => data === userName);
-        return userdata;
-      });
-    });
+    // setRoomNum(inviteCode);
+    // socket.emit("enterRoom", inviteCode, userName);
+    // socket.on("memberList", (members) => setUserList([...members]));
+    // socket.on("welcome", (userMsg: string, members) => {
+    //   setUserList([...members]);
+    //   MainPageProps(members);
+    // });
   }, []);
 
   // 초대코드 복사 기능
   const copyInviteCode = async () => {
-    const inviteCode = window.location.pathname.substring(8);
     await navigator.clipboard.writeText(`${inviteCode}`);
     alert("초대 코드 복사 완료!");
   };
 
   // 소켓 io 방 나가기
   const onLeaveRoom = () => {
-    const userName = localStorage.getItem("StudyName");
-    const inviteCode = window.location.pathname.substring(8);
+    const socket = io("http://localhost:3002", {
+      transports: ["websocket"],
+    });
+
     // 방나갈시 유저닉네임, 방번호
-    socket.emit("leave", userName, inviteCode);
+    socket.emit("leave", inviteCode, userName);
     path("/");
   };
 
