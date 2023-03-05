@@ -105,6 +105,7 @@ export const MainPageBtnWrap = styled.div`
   flex-direction: column;
   .norank {
     cursor: default;
+    margin-bottom: 10px;
   }
 `;
 

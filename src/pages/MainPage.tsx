@@ -5,8 +5,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 
 // Global States
-import { useRecoilValue } from "recoil";
-import { roomNumberSet } from "../store";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { roomNumberSet, IsFeedBackModal } from "../store";
+
+import FeedBackModal from "../components/FeedBackModal";
 
 // styles
 import { ApplicationTitle } from "../styles/components/ApplicationTitle";
@@ -30,9 +32,11 @@ interface UserType {
 }
 
 const MainPage = ({ MainPageProps }: UserType) => {
-  const [userMsg, setUserMsg] = useState<string[]>();
+  const [userMsg, setUserMsg] = useState<string[]>([]);
   const [userList, setUserList] = useState<string[]>([]);
   const roomNum = useRecoilValue(roomNumberSet);
+
+  const [modal, setModal] = useRecoilState(IsFeedBackModal);
 
   const userName = localStorage.getItem("StudyName");
   const inviteCode = window.location.pathname.substring(8);
@@ -48,7 +52,7 @@ const MainPage = ({ MainPageProps }: UserType) => {
     socket.on("memberList", (members) => setUserList([...members]));
     socket.on("welcome", (username, members) => {
       setUserList([...members]);
-      // setUserMsg((prev) => [...members, prev]);
+      setUserMsg([...members]);
       MainPageProps(members);
     });
   }, []);
@@ -64,7 +68,7 @@ const MainPage = ({ MainPageProps }: UserType) => {
     const socket = io("http://localhost:3002", {
       transports: ["websocket"],
     });
-    const data = userList.filter((data) => data == userName);
+    const data = userMsg.filter((data) => data == userName);
     setUserMsg(data);
     console.log(data);
     path("/");
@@ -80,8 +84,14 @@ const MainPage = ({ MainPageProps }: UserType) => {
     path("/random/lots");
   };
 
+  const handleShowFeedBack = () => {
+    console.log(1);
+    setModal(true);
+  };
+
   return (
     <MainWrap>
+      {modal && <FeedBackModal userDataArr={userList} />}
       <ApplicationTitle>발표도우미</ApplicationTitle>
       <MainTitleWrap>
         <MainTitle>
@@ -94,8 +104,8 @@ const MainPage = ({ MainPageProps }: UserType) => {
         <MemberList>
           <strong>유저 리스트</strong>
           {userList.map((data, i) => (
-            <div>
-              <span key={i}>{data}</span>
+            <div key={i}>
+              <span>{data}</span>
               {data === userList[0] ? <Label>방장</Label> : null}
             </div>
           ))}
@@ -117,9 +127,8 @@ const MainPage = ({ MainPageProps }: UserType) => {
         </MainPageBtnWrap>
       ) : (
         <MainPageBtnWrap>
-          <Drawing className="norank">
-            {userList[0]} 님만 뽑을수있습니다.
-          </Drawing>
+          <Drawing className="norank">{userList[0]} 님만 뽑을수있습니다.</Drawing>
+          <RouletteBtn onClick={handleShowFeedBack}>피드백 남기기.</RouletteBtn>
         </MainPageBtnWrap>
       )}
     </MainWrap>

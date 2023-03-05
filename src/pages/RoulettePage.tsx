@@ -4,6 +4,10 @@ import { useState } from "react";
 import { Wheel } from "react-custom-roulette";
 import { useNavigate } from "react-router-dom";
 
+// Global States
+import { useRecoilState } from "recoil";
+import { IsFeedBackModal } from "../store";
+
 // components
 import FeedBackModal from "../components/FeedBackModal";
 
@@ -23,13 +27,14 @@ const RoulettePage = ({ userDataArr }: UserType) => {
   const [mustSpin, setMustSpin] = useState(false);
   // 당첨자의 배열 인덱싱
   const [prizeNumber, setPrizeNumber] = useState(0);
-  // 피드백 모달 활성화 여부 state
-  const [isInFeedBackModal, setIsInFeedBackModal] = useState(false);
 
   // props로 전달받은 소켓유저 가공 데이터
   const userOptions: UserData[] = userDataArr.map((userData) => ({ option: userData }));
   // 가공된 데이터를 State에 저장
   const [userData, setUserData] = useState(userOptions);
+
+  // 피드백 모달 여부 확인
+  const [modal, setModal] = useRecoilState(IsFeedBackModal);
 
   const path = useNavigate();
 
@@ -57,14 +62,17 @@ const RoulettePage = ({ userDataArr }: UserType) => {
     }
   };
 
-  // 피드백 모달 클릭시, 모달 생성, FeedBackModal 컴포넌트로 props 전달
-  const handleFeedBackBtn = () => setIsInFeedBackModal((prev) => !prev);
+  // 피드백 모달 true or false
+  const handleFeedBackBtn = () => {
+    console.log(1);
+    setModal(true);
+  };
 
   const goRoot = () => path("/");
 
   return (
     <RouletteWrapper>
-      {isInFeedBackModal && <FeedBackModal isInFeedBackModal={handleFeedBackBtn} userDataArr={userDataArr} />}
+      {modal && <FeedBackModal userDataArr={userDataArr} />}
       <Wheel
         mustStartSpinning={mustSpin}
         onStopSpinning={() => setMustSpin(false)}
@@ -75,7 +83,9 @@ const RoulettePage = ({ userDataArr }: UserType) => {
         spinDuration={0.3}
       />
       {userData.length === 0 ? (
-        <RuletteBtnWrap onClick={handleFeedBackBtn}>발표자 피드백 남기기</RuletteBtnWrap>
+        <RuletteBtnWrap className="FeedBackPost" onClick={handleFeedBackBtn}>
+          발표자 피드백 남기기
+        </RuletteBtnWrap>
       ) : (
         <RuletteBtnWrap onClick={handleSpinClick}>돌리기</RuletteBtnWrap>
       )}
