@@ -35,7 +35,6 @@ const MainPage = ({ MainPageProps }: UserType) => {
   const [userMsg, setUserMsg] = useState<string[]>([]);
   const [userList, setUserList] = useState<string[]>([]);
   const roomNum = useRecoilValue(roomNumberSet);
-
   const [modal, setModal] = useRecoilState(IsFeedBackModal);
 
   const userName = localStorage.getItem("StudyName");
@@ -52,7 +51,6 @@ const MainPage = ({ MainPageProps }: UserType) => {
     socket.on("memberList", (members) => setUserList([...members]));
     socket.on("welcome", (username, members) => {
       setUserList([...members]);
-      setUserMsg([...members]);
       MainPageProps(members);
     });
   }, []);
@@ -65,22 +63,20 @@ const MainPage = ({ MainPageProps }: UserType) => {
 
   // 소켓 io 방 나가기
   const onLeaveRoom = () => {
-    const socket = io("http://localhost:3002", {
-      transports: ["websocket"],
-    });
-    const data = userMsg.filter((data) => data == userName);
-    setUserMsg(data);
-    console.log(data);
+    socket.emit("leave", inviteCode, userName);
+    socket.on("welcome", (username, members) => setUserList([...members]));
     path("/");
   };
 
   // 룰렛 페이지로 가기
   const goRoulette = () => {
+    if (userList.length === 1) return alert("추첨은 혼자서 할수 없습니다.");
     path("/random/roulette");
   };
 
   // 제비뽑기 페이지로 가기
   const goLots = () => {
+    if (userList.length === 1) return alert("추첨은 혼자서 할수 없습니다.");
     path("/random/lots");
   };
 
@@ -113,9 +109,6 @@ const MainPage = ({ MainPageProps }: UserType) => {
         <MemberHistory>
           {userList?.map((userName, i) => (
             <div key={i}>{`${userName}님이 입장하였습니다.`}</div>
-          ))}
-          {userMsg?.map((data, i) => (
-            <div key={i}>{`${data} 님이 나감 ㅅㄱ`}</div>
           ))}
         </MemberHistory>
       </ContentsWrap>
