@@ -103,6 +103,9 @@ export const MainPageBtnWrap = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  .norank {
+    cursor: default;
+  }
 `;
 
 export const RouletteBtn = styled.button`

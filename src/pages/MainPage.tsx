@@ -28,16 +28,9 @@ interface UserType {
   MainPageProps: (userList: string[]) => void;
 }
 
-interface UserList {
-  rank: number;
-  username: string;
-  _id: string;
-}
-
 const MainPage = ({ MainPageProps }: UserType) => {
   const [userMsg, setUserMsg] = useState([]);
-  const [userList, setUserList] = useState<UserList[]>([]);
-  const [isInGetExit, setIsInGetExit] = useState<boolean>(true);
+  const [userList, setUserList] = useState<string[]>([]);
   const roomNum = useRecoilValue(roomNumberSet);
 
   const userName = localStorage.getItem("StudyName");
@@ -50,18 +43,12 @@ const MainPage = ({ MainPageProps }: UserType) => {
   });
 
   useEffect(() => {
-    socket.on("welcome", (username, members) => {
+    socket.emit("enterRoom", inviteCode, userName);
+    socket.on("memberList", (members) => setUserList([...members]));
+    socket.on("welcome", (userMsg: string, members) => {
       setUserList([...members]);
-      console.log(members);
+      MainPageProps(members);
     });
-
-    if (rank.state.value === 1) {
-      socket.emit("createAndJoinRoom", inviteCode, userName);
-      return;
-    } else if (rank.state.value === 0) {
-      socket.emit("searchAndJoinRoom", inviteCode, userName);
-      return;
-    }
   }, []);
 
   console.log(userList);
@@ -107,7 +94,7 @@ const MainPage = ({ MainPageProps }: UserType) => {
         <MemberList>
           <strong>유저 리스트</strong>
           {userList.map((data, i) => (
-            <div key={i}>{data.username}</div>
+            <div key={i}>{data}</div>
           ))}
         </MemberList>
         <MemberHistory>
@@ -120,10 +107,16 @@ const MainPage = ({ MainPageProps }: UserType) => {
         </MemberHistory>
       </ContentsWrap>
       {/** 방장(rank 1)만 보이는 버튼 */}
-      <MainPageBtnWrap>
-        <RouletteBtn onClick={goRoulette}>룰렛 돌리기</RouletteBtn>
-        <Drawing onClick={goLots}>제비 뽑기</Drawing>
-      </MainPageBtnWrap>
+      {rank.state.value === 1 ? (
+        <MainPageBtnWrap>
+          <RouletteBtn onClick={goRoulette}>룰렛 돌리기</RouletteBtn>
+          <Drawing onClick={goLots}>제비 뽑기</Drawing>
+        </MainPageBtnWrap>
+      ) : (
+        <MainPageBtnWrap>
+          <Drawing className="norank">{userList[0]} 님만 뽑을수있습니다.</Drawing>
+        </MainPageBtnWrap>
+      )}
     </MainWrap>
   );
 };

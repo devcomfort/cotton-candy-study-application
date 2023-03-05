@@ -59,14 +59,6 @@ const InviteModal = (props: ModalType) => {
     } else {
       return alert("해당 방은 존재하지 않습니다.");
     }
-    // if (json.result) {
-    //   socket.emit("searchAndJoinRoom", roomNum, userName);
-    //   // socket.on("memberList", (data) => console.log(data));
-    //   path(`/rooms/:${roomNum}`);
-    //   return;
-    // } else {
-    //   return alert("해당 방은 존재하지 않습니다.");
-    // }
   };
 
   // input에 사용자가 입력한 값의 길이를 검증한다.

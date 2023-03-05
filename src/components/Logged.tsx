@@ -39,10 +39,6 @@ const Logged = (props: StorageType) => {
     });
     const json = await data.json();
     setRoomNum(json.inviteCode);
-    // Socket Rank(방장 emit 통신)
-    // socket.emit("createAndJoinRoom", json.inviteCode, userName);
-    // path(`/rooms/:${json.inviteCode}`);
-    // socket.on("memberList", (data) => console.log(data));
     path("/rooms/:" + json.inviteCode, {
       state: { value: 1 },
     });
