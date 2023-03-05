@@ -7,6 +7,11 @@ export const RouletteWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  .FeedBackPost {
+    background-color: #fce9aa;
+    font-weight: bold;
+    color: grey;
+  }
 `;
 
 export const RuletteBtnWrap = styled.div`

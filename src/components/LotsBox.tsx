@@ -72,6 +72,7 @@ const LotsBox = ({ userDataArr }: UserType) => {
     userData.splice(userIdx, 1);
     // 제외한 데이터 저장
     setUserData([...userData]);
+    console.log(userDataArr);
   };
 
   // 피드백 모달 클릭시, 모달 생성, FeedBackModal 컴포넌트로 props 전달
@@ -83,7 +84,7 @@ const LotsBox = ({ userDataArr }: UserType) => {
     <LotsBoxWrap>
       <h1>제비 뽑기</h1>
       {/* 1. 솜사탕 작업 목록  isInFeedBackModal 값에 따라 피드백 컴포넌트 렌더링 */}
-      {isInFeedBackModal && <FeedBackModal isInFeedBackModal={handleFeedBackBtn} userDataArr={userDataArr} />}
+      {isInFeedBackModal && <FeedBackModal isInFeedBackModal={handleFeedBackBtn} userDataArr={pickupData} />}
       {isShakeConfetti ? <Confetti recycle={false} gravity={0.5} /> : null}
       {isShakeBox ? <ShakingLotsBox /> : <DefaultLotsBox />}
       {userData.length === 0 ? (

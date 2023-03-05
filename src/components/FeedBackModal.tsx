@@ -2,7 +2,7 @@ import { useState } from "react";
 
 // Global States
 import { useRecoilState } from "recoil";
-import { roomNumberSet } from "../store";
+import { roomNumberSet, IsFeedBackModal } from "../store";
 
 // components
 import {
@@ -18,7 +18,6 @@ import {
 } from "../styles/components/FeedBackModal";
 
 interface ModalType {
-  isInFeedBackModal: () => void;
   userDataArr: string[];
 }
 
@@ -26,6 +25,8 @@ const FeedBackModal = (props: ModalType) => {
   const [text, setText] = useState("");
   const [roomNum, setRoomNum] = useRecoilState(roomNumberSet);
   const [feedBackUserList, setFeedBackUserList] = useState(props.userDataArr[0]);
+  // 피드백 모달 여부 확인
+  const [modal, setModal] = useRecoilState(IsFeedBackModal);
 
   // 유저리스트 셀렉 함수
   const selectedUserList = (e: React.ChangeEvent<HTMLSelectElement>) => setFeedBackUserList(e.target.value);
@@ -54,7 +55,7 @@ const FeedBackModal = (props: ModalType) => {
   const feedBackInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => setText(e.target.value);
 
   // 상위 컴포넌트 페이지인 Roulette, LotsBox 셋팅된 함수를 호출하여 state의 반대값을 저장하여 모달을 닫는 함수
-  const handleCloseFeedBackModal = () => props.isInFeedBackModal();
+  const handleCloseFeedBackModal = () => setModal(false);
 
   return (
     <FeedBackContainer>

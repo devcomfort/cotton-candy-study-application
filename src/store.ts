@@ -6,23 +6,11 @@ export const IsStorageName = atom({
   default: localStorage.getItem("StudyName"),
 });
 
-// // UserList
-// export const socketUserList = atom({
-//   key: "socketUserList",
-//   default: [],
-// });
-
-// // room number get, set
-// export const userListSet = selector({
-//   key: "roomNumberSet",
-//   get: ({ get }) => {
-//     if (typeof socketUserList === "string") {
-//       return get(socketUserList);
-//     } else {
-//       return;
-//     }
-//   },
-// });
+// FeedBackModal
+export const IsFeedBackModal = atom({
+  key: "IsFeedBackModal",
+  default: false,
+});
 
 // room number default
 const roomNumberState = atom({
