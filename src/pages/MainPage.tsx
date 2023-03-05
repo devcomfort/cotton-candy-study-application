@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // Socket
 import { io } from "socket.io-client";
 
 // Global States
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { roomNumberSet } from "../store";
 
 // styles
@@ -28,25 +28,43 @@ interface UserType {
   MainPageProps: (userList: string[]) => void;
 }
 
+interface UserList {
+  rank: number;
+  username: string;
+  _id: string;
+}
+
 const MainPage = ({ MainPageProps }: UserType) => {
-  const [roomNum, setRoomNum] = useRecoilState(roomNumberSet);
-  const [userMsg, setUserMsg] = useState([localStorage.getItem("StudyName")]);
-  const [userList, setUserList] = useState<string[]>([]);
+  const [userMsg, setUserMsg] = useState([]);
+  const [userList, setUserList] = useState<UserList[]>([]);
   const [isInGetExit, setIsInGetExit] = useState<boolean>(true);
+  const roomNum = useRecoilValue(roomNumberSet);
 
   const userName = localStorage.getItem("StudyName");
   const inviteCode = window.location.pathname.substring(8);
   const path = useNavigate();
+  const rank = useLocation();
+
+  const socket = io("http://localhost:3002", {
+    transports: ["websocket"],
+  });
 
   useEffect(() => {
-    // setRoomNum(inviteCode);
-    // socket.emit("enterRoom", inviteCode, userName);
-    // socket.on("memberList", (members) => setUserList([...members]));
-    // socket.on("welcome", (userMsg: string, members) => {
-    //   setUserList([...members]);
-    //   MainPageProps(members);
-    // });
+    socket.on("welcome", (username, members) => {
+      setUserList([...members]);
+      console.log(members);
+    });
+
+    if (rank.state.value === 1) {
+      socket.emit("createAndJoinRoom", inviteCode, userName);
+      return;
+    } else if (rank.state.value === 0) {
+      socket.emit("searchAndJoinRoom", inviteCode, userName);
+      return;
+    }
   }, []);
+
+  console.log(userList);
 
   // 초대코드 복사 기능
   const copyInviteCode = async () => {
@@ -88,15 +106,17 @@ const MainPage = ({ MainPageProps }: UserType) => {
       <ContentsWrap>
         <MemberList>
           <strong>유저 리스트</strong>
-          {userList?.map((userName, i) => (
-            <div key={i}>{userName}</div>
+          {userList.map((data, i) => (
+            <div key={i}>{data.username}</div>
           ))}
         </MemberList>
         <MemberHistory>
-          <div id="joinmsg"></div>
-          {isInGetExit
+          {userMsg?.map((userName, i) => (
+            <div key={i}>{`${userName}님이 입장하였습니다.`}</div>
+          ))}
+          {/* {isInGetExit
             ? userList?.map((userName, i) => <div key={i}>{`${userName}님이 입장하였습니다.`}</div>)
-            : userMsg?.map((userName, i) => <div key={i}>{`${userName}님이 퇴장하였습니다.`}</div>)}
+            : userMsg?.map((userName, i) => <div key={i}>{`${userName}님이 퇴장하였습니다.`}</div>)} */}
         </MemberHistory>
       </ContentsWrap>
       {/** 방장(rank 1)만 보이는 버튼 */}
