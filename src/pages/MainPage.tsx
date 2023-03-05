@@ -30,7 +30,7 @@ interface UserType {
 }
 
 const MainPage = ({ MainPageProps }: UserType) => {
-  const [userMsg, setUserMsg] = useState([]);
+  const [userMsg, setUserMsg] = useState<string[]>();
   const [userList, setUserList] = useState<string[]>([]);
   const roomNum = useRecoilValue(roomNumberSet);
 
@@ -46,8 +46,9 @@ const MainPage = ({ MainPageProps }: UserType) => {
   useEffect(() => {
     socket.emit("enterRoom", inviteCode, userName);
     socket.on("memberList", (members) => setUserList([...members]));
-    socket.on("welcome", (userMsg: string, members) => {
+    socket.on("welcome", (username, members) => {
       setUserList([...members]);
+      // setUserMsg((prev) => [...members, prev]);
       MainPageProps(members);
     });
   }, []);
@@ -63,9 +64,9 @@ const MainPage = ({ MainPageProps }: UserType) => {
     const socket = io("http://localhost:3002", {
       transports: ["websocket"],
     });
-
-    // 방나갈시 유저닉네임, 방번호
-    socket.emit("leave", inviteCode, userName);
+    const data = userList.filter((data) => data == userName);
+    setUserMsg(data);
+    console.log(data);
     path("/");
   };
 
@@ -100,12 +101,12 @@ const MainPage = ({ MainPageProps }: UserType) => {
           ))}
         </MemberList>
         <MemberHistory>
-          {userMsg?.map((userName, i) => (
+          {userList?.map((userName, i) => (
             <div key={i}>{`${userName}님이 입장하였습니다.`}</div>
           ))}
-          {/* {isInGetExit
-            ? userList?.map((userName, i) => <div key={i}>{`${userName}님이 입장하였습니다.`}</div>)
-            : userMsg?.map((userName, i) => <div key={i}>{`${userName}님이 퇴장하였습니다.`}</div>)} */}
+          {userMsg?.map((data, i) => (
+            <div key={i}>{`${data} 님이 나감 ㅅㄱ`}</div>
+          ))}
         </MemberHistory>
       </ContentsWrap>
       {/** 방장(rank 1)만 보이는 버튼 */}
