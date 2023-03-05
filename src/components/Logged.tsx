@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Socket
@@ -25,6 +25,7 @@ const Logged = (props: StorageType) => {
   const userName = localStorage.getItem("StudyName");
   const [roomNum, setRoomNum] = useRecoilState(roomNumberSet);
   const [activityModal, setActivityModal] = useState(false);
+  const [members, setMembers] = useState();
 
   const path = useNavigate();
 
@@ -39,8 +40,12 @@ const Logged = (props: StorageType) => {
     const json = await data.json();
     setRoomNum(json.inviteCode);
     // Socket Rank(방장 emit 통신)
-    socket.emit("createAndJoinRoom", json.inviteCode, userName);
-    path(`/rooms/:${json.inviteCode}`);
+    // socket.emit("createAndJoinRoom", json.inviteCode, userName);
+    // path(`/rooms/:${json.inviteCode}`);
+    // socket.on("memberList", (data) => console.log(data));
+    path("/rooms/:" + json.inviteCode, {
+      state: { value: 1 },
+    });
   };
 
   // URl 경로 /feedback으로 이동하는 함수
