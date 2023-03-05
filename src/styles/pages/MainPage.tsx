@@ -122,3 +122,14 @@ export const Drawing = styled.button`
   background-color: #fce9aa;
   border-radius: 0.5rem;
 `;
+
+export const Label = styled.span`
+  background-color: #ffffff;
+  border-radius: 4px;
+  border: 1px solid #00b7ff;
+  color: #00b7ff;
+  font-size: 12px;
+  padding-left: 4px;
+  padding-right: 4px;
+  margin-left: 0.5rem;
+`;

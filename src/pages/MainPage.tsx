@@ -11,6 +11,7 @@ import { roomNumberSet } from "../store";
 // styles
 import { ApplicationTitle } from "../styles/components/ApplicationTitle";
 import {
+  Label,
   ContentsWrap,
   Drawing,
   InviteCodeBtn,
@@ -50,8 +51,6 @@ const MainPage = ({ MainPageProps }: UserType) => {
       MainPageProps(members);
     });
   }, []);
-
-  console.log(userList);
 
   // 초대코드 복사 기능
   const copyInviteCode = async () => {
@@ -94,7 +93,10 @@ const MainPage = ({ MainPageProps }: UserType) => {
         <MemberList>
           <strong>유저 리스트</strong>
           {userList.map((data, i) => (
-            <div key={i}>{data}</div>
+            <div>
+              <span key={i}>{data}</span>
+              {data === userList[0] ? <Label>방장</Label> : null}
+            </div>
           ))}
         </MemberList>
         <MemberHistory>
@@ -114,7 +116,9 @@ const MainPage = ({ MainPageProps }: UserType) => {
         </MainPageBtnWrap>
       ) : (
         <MainPageBtnWrap>
-          <Drawing className="norank">{userList[0]} 님만 뽑을수있습니다.</Drawing>
+          <Drawing className="norank">
+            {userList[0]} 님만 뽑을수있습니다.
+          </Drawing>
         </MainPageBtnWrap>
       )}
     </MainWrap>
