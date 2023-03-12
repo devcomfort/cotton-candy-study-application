@@ -81,7 +81,6 @@ const MainPage = ({ MainPageProps }: UserType) => {
   };
 
   const handleShowFeedBack = () => {
-    console.log(1);
     setModal(true);
   };
 

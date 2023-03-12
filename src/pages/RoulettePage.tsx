@@ -64,7 +64,6 @@ const RoulettePage = ({ userDataArr }: UserType) => {
 
   // 피드백 모달 true or false
   const handleFeedBackBtn = () => {
-    console.log(1);
     setModal(true);
   };
 
