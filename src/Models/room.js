@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const roomSchema = new mongoose.Schema({
     inviteCode: { type: String, require: true},
     members: [{
-        username: String
+        type: String
     }],
     createdAt: { type: Date, required: true, default: Date.now },
 });
