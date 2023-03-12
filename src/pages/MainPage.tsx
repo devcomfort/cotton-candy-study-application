@@ -18,13 +18,14 @@ import {
   Drawing,
   InviteCodeBtn,
   MainPageBtnWrap,
-  MainTitle,
   MainTitleWrap,
   MainWrap,
   MemberHistory,
   MemberList,
   RoomExitBtn,
   RouletteBtn,
+  UserInfo,
+  DrawingDisabled,
 } from "../styles/pages/MainPage";
 
 interface UserType {
@@ -89,20 +90,33 @@ const MainPage = ({ MainPageProps }: UserType) => {
       {modal && <FeedBackModal userDataArr={userList} />}
       <ApplicationTitle>발표도우미</ApplicationTitle>
       <MainTitleWrap>
-        <MainTitle>
-          <div>스터디 방 {roomNum}</div>
-          <RoomExitBtn onClick={onLeaveRoom}>방 나가기</RoomExitBtn>
-        </MainTitle>
-        <InviteCodeBtn onClick={copyInviteCode}>초대 코드 복사</InviteCodeBtn>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          스터디 방 {roomNum}
+          <InviteCodeBtn onClick={copyInviteCode}>
+            <img src="../src/assets/copy-regular.svg" width="12px" />
+            <span>복사</span>
+          </InviteCodeBtn>
+        </div>
+        <RoomExitBtn onClick={onLeaveRoom}>방 나가기</RoomExitBtn>
       </MainTitleWrap>
       <ContentsWrap>
         <MemberList>
-          <strong>유저 리스트</strong>
+          <strong style={{ paddingBottom: "16px" }}>유저 리스트</strong>
           {userList.map((data, i) => (
-            <div key={i}>
+            <UserInfo key={i}>
+              <img
+                src="../src/assets/circle-user-solid.svg"
+                style={{ marginRight: "4px", width: "16px" }}
+              />
               <span>{data}</span>
-              {data === userList[0] ? <Label>방장</Label> : null}
-            </div>
+              {data === userList[0] && <Label>방장</Label>}
+            </UserInfo>
           ))}
         </MemberList>
         <MemberHistory>
@@ -119,8 +133,10 @@ const MainPage = ({ MainPageProps }: UserType) => {
         </MainPageBtnWrap>
       ) : (
         <MainPageBtnWrap>
-          <Drawing className="norank">{userList[0]} 님만 뽑을수있습니다.</Drawing>
-          <RouletteBtn onClick={handleShowFeedBack}>피드백 남기기.</RouletteBtn>
+          <DrawingDisabled className="norank">
+            {userList[0]} 님만 뽑을수있습니다.
+          </DrawingDisabled>
+          <RouletteBtn onClick={handleShowFeedBack}>피드백 남기기</RouletteBtn>
         </MainPageBtnWrap>
       )}
     </MainWrap>
