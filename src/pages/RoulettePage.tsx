@@ -12,7 +12,14 @@ import { IsFeedBackModal } from "../store";
 import FeedBackModal from "../components/FeedBackModal";
 
 // styles
-import { RouletteWrapper, RuletteBtnWrap, RuletteGoRootBtn } from "../styles/pages/RoulettePage";
+import {
+  ButtonWrap,
+  RouletteWrapper,
+  RuletteBtn,
+  RuletteGoRootBtn,
+  WheelWrap,
+} from "../styles/pages/RoulettePage";
+import { ApplicationTitle } from "../styles/components/ApplicationTitle";
 
 interface UserType {
   userDataArr: string[];
@@ -29,9 +36,14 @@ const RoulettePage = ({ userDataArr }: UserType) => {
   const [prizeNumber, setPrizeNumber] = useState(0);
 
   // props로 전달받은 소켓유저 가공 데이터
-  const userOptions: UserData[] = userDataArr.map((userData) => ({ option: userData }));
+  const userOptions: UserData[] = userDataArr.map((userData) => ({
+    option: userData,
+  }));
   // 가공된 데이터를 State에 저장
   const [userData, setUserData] = useState(userOptions);
+
+  // 당첨자 저장되는 배열 state
+  const [resultData, setResultData] = useState<string[]>([]);
 
   // 피드백 모달 여부 확인
   const [modal, setModal] = useRecoilState(IsFeedBackModal);
@@ -45,7 +57,7 @@ const RoulettePage = ({ userDataArr }: UserType) => {
     setPrizeNumber(newPrizeNumber);
     setMustSpin(true);
     setTimeout(() => {
-      alert(`당첨자 : ${userData[newPrizeNumber].option}`);
+      alert(`이번 발표자 : ${userData[newPrizeNumber].option}`);
       deleteArrayClick(newPrizeNumber);
     }, 3800);
   };
@@ -56,10 +68,14 @@ const RoulettePage = ({ userDataArr }: UserType) => {
     setUserData([...userData]);
 
     if (userData.length === 1) {
-      alert(`마지막 당첨자 ${userData[0].option}`);
+      alert(`마지막 발표자 ${userData[0].option}`);
       userData.splice(0, 1);
+      // 마지막 발표자 결과 데이터에 추가
+      setResultData([...userData[0].option]);
       return setUserData([...userData]);
     }
+    // 이번발표자 결과 데이터에 추가
+    setResultData([...userData[newPrizeNumber].option]);
   };
 
   // 피드백 모달 true or false
@@ -72,23 +88,46 @@ const RoulettePage = ({ userDataArr }: UserType) => {
   return (
     <RouletteWrapper>
       {modal && <FeedBackModal userDataArr={userDataArr} />}
-      <Wheel
-        mustStartSpinning={mustSpin}
-        onStopSpinning={() => setMustSpin(false)}
-        prizeNumber={prizeNumber}
-        data={userData}
-        backgroundColors={["#3e3e3e", "#df3428", "blue", "green", "orange", "teal"]}
-        textColors={["#ffffff"]}
-        spinDuration={0.3}
-      />
-      {userData.length === 0 ? (
-        <RuletteBtnWrap className="FeedBackPost" onClick={handleFeedBackBtn}>
-          발표자 피드백 남기기
-        </RuletteBtnWrap>
-      ) : (
-        <RuletteBtnWrap onClick={handleSpinClick}>돌리기</RuletteBtnWrap>
-      )}
-      <RuletteGoRootBtn onClick={goRoot}>나가기</RuletteGoRootBtn>
+      <ApplicationTitle>룰렛 돌리기</ApplicationTitle>
+      <WheelWrap>
+        {userData.length === 0 ? (
+          <div style={{ height: "400px" }}>
+            발표 순서 :
+            <>
+              {resultData.map((user, i) => {
+                <div key={i}>{user}</div>;
+              })}
+            </>
+          </div>
+        ) : (
+          <Wheel
+            mustStartSpinning={mustSpin}
+            onStopSpinning={() => setMustSpin(false)}
+            prizeNumber={prizeNumber}
+            data={userData}
+            backgroundColors={[
+              "#3e3e3e",
+              "#df3428",
+              "blue",
+              "green",
+              "orange",
+              "teal",
+            ]}
+            textColors={["#ffffff"]}
+            spinDuration={0.3}
+          />
+        )}
+      </WheelWrap>
+      <ButtonWrap>
+        {userData.length === 0 ? (
+          <RuletteBtn className="FeedBackPost" onClick={handleFeedBackBtn}>
+            발표자 피드백 남기기
+          </RuletteBtn>
+        ) : (
+          <RuletteBtn onClick={handleSpinClick}>돌리기</RuletteBtn>
+        )}
+        <RuletteGoRootBtn onClick={goRoot}>나가기</RuletteGoRootBtn>
+      </ButtonWrap>
     </RouletteWrapper>
   );
 };

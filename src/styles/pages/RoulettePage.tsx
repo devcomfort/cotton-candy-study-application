@@ -1,47 +1,47 @@
 import styled from "@emotion/styled";
 
+// 전체 wrap
 export const RouletteWrapper = styled.div`
-  width: 100%;
-  height: 100vh;
+  max-width: 860px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 0 1rem;
+  overflow: hidden;
   .FeedBackPost {
-    background-color: #fce9aa;
+    background-color: #fcc1aa;
     font-weight: bold;
-    color: grey;
   }
 `;
 
-export const RuletteBtnWrap = styled.div`
-  width: 100%;
-  height: 40px;
-  max-width: 70%;
-  margin-top: 30px;
+export const WheelWrap = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #7f88b2;
-  border-radius: 10px;
-  color: #f7f8f8;
-  font-weight: bold;
-  font-size: 18px;
-  cursor: pointer;
+  margin: 4rem 0;
 `;
 
-export const RuletteGoRootBtn = styled.div`
+// 발표자 피드백 남기기 / 룰렛 돌리기 버튼
+export const ButtonWrap = styled.div`
   width: 100%;
-  height: 40px;
-  max-width: 70%;
-  margin-top: 30px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: salmon;
-  border-radius: 10px;
-  color: #f7f8f8;
-  font-weight: bold;
-  font-size: 18px;
-  cursor: pointer;
+  flex-direction: column;
+  margin-top: 2rem;
+`;
+
+export const RuletteBtn = styled.button`
+  padding: 1rem;
+  font-weight: 600;
+  background-color: #fce9aa;
+  border-radius: 0.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+`;
+
+export const RuletteGoRootBtn = styled.button`
+  padding: 1rem;
+  font-weight: 600;
+  background-color: #d6dbff;
+  border-radius: 0.5rem;
+  text-align: center;
 `;

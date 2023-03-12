@@ -11,18 +11,13 @@ export const MainWrap = styled.div`
 
 export const MainTitleWrap = styled.div`
   display: flex;
-  flex-direction: column;
   width: 100%;
-  margin-bottom: 1rem;
-`;
-
-export const MainTitle = styled.div`
-  display: flex;
   font-weight: 600;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 1rem;
   justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 1px solid #ebebeb;
 `;
 
 export const RoomExitBtn = styled.button`
@@ -35,53 +30,54 @@ export const RoomExitBtn = styled.button`
 `;
 
 export const InviteCodeBtn = styled.button`
-  font-weight: 600;
-  color: white;
-  border: 1px solid #b43939;
-  background-color: #ff6868;
-  border-radius: 0.5rem;
-  padding: 1rem;
+  display: flex;
+  border: 1px solid #ccc;
+  background-color: #eeeeee;
+  padding: 0.4rem 0.6rem;
+  margin-left: 1rem;
+  font-size: 12px;
 `;
 
+// 유저 리스트 + 히스토리
 export const ContentsWrap = styled.div`
   width: 100%;
   height: 60vh;
   display: flex;
   flex-direction: row;
   margin-bottom: 1rem;
+  border-bottom: 1px solid #ebebeb;
 `;
 
+// 좌측 유저 리스트
 export const MemberList = styled.div`
   width: 30%;
   display: flex;
   justify-content: left;
   flex-direction: column;
-  padding: 1rem;
   text-align: left;
   color: #222;
   overflow: auto;
+  padding-top: 1rem;
 `;
 
-export const MemberListSpan = styled.span`
+export const UserInfo = styled.div`
   display: flex;
+  flex-direction: row;
   align-items: center;
-  margin-top: 1rem;
-  cursor: pointer;
+  padding-bottom: 0.5rem;
 `;
 
+// 우측 입장, 퇴장 히스토리
 export const MemberHistory = styled.div`
   width: 70%;
   display: flex;
   flex-direction: column;
   justify-content: left;
-  border: 1px sold #ccc;
   color: #666;
   font-size: 0.9rem;
   overflow: auto;
-  padding: 1rem 0;
-  background-color: #f5f5f5;
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
+  border-left: 1px solid #ebebeb;
+  padding-top: 1rem;
 
   > :nth-of-type(1n) {
     margin: 0 1rem 0.5rem 1rem;
@@ -117,11 +113,20 @@ export const RouletteBtn = styled.button`
   margin-bottom: 0.5rem;
 `;
 
+// 제비 뽑기 버튼
 export const Drawing = styled.button`
   padding: 1rem;
   font-weight: 600;
   background-color: #fce9aa;
   border-radius: 0.5rem;
+`;
+
+export const DrawingDisabled = styled.button`
+  padding: 1rem;
+  border: 1px solid #ccc;
+  background-color: #ebebeb;
+  border-radius: 0.5rem;
+  color: #ccc;
 `;
 
 export const Label = styled.span`
