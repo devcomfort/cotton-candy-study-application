@@ -1,5 +1,9 @@
 import { useState } from "react";
 
+// Global States
+import { useRecoilState } from "recoil";
+import { IsFeedBackModal } from "../store";
+
 // library
 import Confetti from "react-confetti";
 import { useNavigate } from "react-router-dom";
@@ -25,8 +29,8 @@ const LotsBox = ({ userDataArr }: UserType) => {
   const [userData, setUserData] = useState(userDataArr);
   // 뽑힌 사람들이 역순으로 들어간 배열 state
   const [pickupData, setPickupData] = useState<string[]>([]);
-  // 피드백 모달 활성화 여부 state
-  const [isInFeedBackModal, setIsInFeedBackModal] = useState(false);
+  // 피드백 모달 여부 확인
+  const [isActivityFeedBackModal, setIsActivityFeedBackModal] = useRecoilState(IsFeedBackModal);
 
   const path = useNavigate();
 
@@ -72,11 +76,10 @@ const LotsBox = ({ userDataArr }: UserType) => {
     userData.splice(userIdx, 1);
     // 제외한 데이터 저장
     setUserData([...userData]);
-    console.log(userDataArr);
   };
 
   // 피드백 모달 클릭시, 모달 생성, FeedBackModal 컴포넌트로 props 전달
-  const handleFeedBackBtn = () => setIsInFeedBackModal((prev) => !prev);
+  const handleFeedBackBtn = () => setIsActivityFeedBackModal((prev) => !prev);
 
   const goRoot = () => path("/");
 
@@ -84,7 +87,7 @@ const LotsBox = ({ userDataArr }: UserType) => {
     <LotsBoxWrap>
       <h1>제비 뽑기</h1>
       {/* 1. 솜사탕 작업 목록  isInFeedBackModal 값에 따라 피드백 컴포넌트 렌더링 */}
-      {isInFeedBackModal && <FeedBackModal isInFeedBackModal={handleFeedBackBtn} userDataArr={pickupData} />}
+      {isActivityFeedBackModal && <FeedBackModal userDataArr={pickupData} />}
       {isShakeConfetti ? <Confetti recycle={false} gravity={0.5} /> : null}
       {isShakeBox ? <ShakingLotsBox /> : <DefaultLotsBox />}
       {userData.length === 0 ? (
