@@ -12,13 +12,7 @@ import { IsFeedBackModal } from "../store";
 import FeedBackModal from "../components/FeedBackModal";
 
 // styles
-import {
-  ButtonWrap,
-  RouletteWrapper,
-  RuletteBtn,
-  RuletteGoRootBtn,
-  WheelWrap,
-} from "../styles/pages/RoulettePage";
+import { ButtonWrap, RouletteWrapper, RuletteBtn, RuletteGoRootBtn, WheelWrap } from "../styles/pages/RoulettePage";
 import { ApplicationTitle } from "../styles/components/ApplicationTitle";
 
 interface UserType {
@@ -64,18 +58,35 @@ const RoulettePage = ({ userDataArr }: UserType) => {
 
   // 당첨자가 나올시, 해당 당첨자를 배열에서 삭제하는 함수
   const deleteArrayClick = (newPrizeNumber: number) => {
+    /**
+     * 1. 기존 state 값을 가져오고, 신규값을 배열에 저장함
+     * 2. ...reulstData = > 기존값이 ["솜"] 이라 가정
+     * 3. userData[newPrizeNumber].option(신규값) => "사"
+     * 4. newResultData 해당 변수에는 ["솜", "사"] 이렇게 대입이 됨
+     *
+     * 5. 대입된 newResultData 변수를 setResultData함수에 업데이트
+     * 6. resultData state의 값은 ["솜", "사"] 가 됨
+     *  */
+    const newResultData = [...resultData, userData[newPrizeNumber].option];
+    setResultData(newResultData);
     userData.splice(newPrizeNumber, 1);
     setUserData([...userData]);
 
     if (userData.length === 1) {
       alert(`마지막 발표자 ${userData[0].option}`);
+      // 나는 이게맞다고보는데 아래로 할시 마지막 요소가 추가가 안됨
+      // 7. resultData의 값이 ["솜","사"] 인 상태에서 마지막 userData[0].option 요소를 추가
+      // 8. 이렇게 되면 resultData의 값은 ["솜", "사", "마지막"] 이렇게 되어야한다고 생각함
+
+      // 그런데 안됨
+      // setResultData([...resultData, userData[0].option]);
+
+      // 왜 아래처럼 코드를 작성해야하는가 ?
+      setResultData([...newResultData, userData[0].option]);
+
       userData.splice(0, 1);
-      // 마지막 발표자 결과 데이터에 추가
-      setResultData([...userData[0].option]);
       return setUserData([...userData]);
     }
-    // 이번발표자 결과 데이터에 추가
-    setResultData([...userData[newPrizeNumber].option]);
   };
 
   // 피드백 모달 true or false
@@ -94,9 +105,9 @@ const RoulettePage = ({ userDataArr }: UserType) => {
           <div style={{ height: "400px" }}>
             발표 순서 :
             <>
-              {resultData.map((user, i) => {
-                <div key={i}>{user}</div>;
-              })}
+              {resultData.map((user, i) => (
+                <div key={i}>{user}</div>
+              ))}
             </>
           </div>
         ) : (
@@ -105,14 +116,7 @@ const RoulettePage = ({ userDataArr }: UserType) => {
             onStopSpinning={() => setMustSpin(false)}
             prizeNumber={prizeNumber}
             data={userData}
-            backgroundColors={[
-              "#3e3e3e",
-              "#df3428",
-              "blue",
-              "green",
-              "orange",
-              "teal",
-            ]}
+            backgroundColors={["#3e3e3e", "#df3428", "blue", "green", "orange", "teal"]}
             textColors={["#ffffff"]}
             spinDuration={0.3}
           />
